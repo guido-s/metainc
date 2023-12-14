@@ -1,0 +1,17 @@
+Package: inconsistency
+Title: Title in Upper Case
+Version: 0.0-1
+Date: 2023-12-14
+Depends: R (>= 4.0.0)
+Imports: metafor (>= 3.0-0), confintr
+Authors@R: person("Bernardo", "Sousa-Pinto",
+                  role = c("cre", "aut"),
+                  email = "bernardo@med.up.pt",
+                  comment = c(ORCID = "0000-0002-1277-3401"))
+Author: Bernardo Sousa-Pinto [cre, aut] (<https://orcid.org/0000-0002-1277-3401>)
+Maintainer: Bernardo Sousa-Pinto <bernardo@med.up.pt>
+URL: https://github.com/
+Description: Descriptive information on the R package in a long sentence.
+License: GPL (>= 2)
+Encoding: UTF-8
+RoxygenNote: 7.2.3
