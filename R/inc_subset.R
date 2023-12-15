@@ -39,6 +39,9 @@ if(is.null(object$call$t1)){
   cl1$proportion <- round((cl1$n)/sum(cl1$n),4)
   cl1$d <- abs((1/3) - cl1$proportion)
   cl2 <- cl1[, c("classification", "proportion")]
+  cl2$ordem <- c(3,1,2)
+  cl2 <- cl2[order(cl2$ordem),]
+  cl2 <- cl2[,1:2]
   di <- (1-((0.5*sum(cl1$d))/(2/3)))*100
   
   
@@ -107,6 +110,9 @@ if(is.null(object$call$t1)){
   cl1$proportion <- round((cl1$n)/sum(cl1$n),4)
   cl1$d <- abs((1/7) - cl1$proportion)
   cl2 <- cl1[, c("classification", "proportion")]
+  cl2$ordem <- c(7,1,6,2,4,5,3)
+  cl2 <- cl2[order(cl2$ordem),]
+  cl2 <- cl2[,1:2]
   di <- (1-((0.5*sum(cl1$d))/(6/7)))*100
   
   output <- list(ASI = round(ds,3), DI = round(di,3), class_distribution = cl2, n_stud=N, call = match.call())
