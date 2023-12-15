@@ -1,13 +1,17 @@
-Package: inconsistency
-Title: Title in Upper Case
+Package: metainc
+Title: Assessment of Inconsistency in Meta-analysis
 Version: 0.0-1
 Date: 2023-12-14
 Depends: R (>= 4.0.0)
-Imports: metafor (>= 3.0-0), confintr
+Imports: metafor (>= 3.0-0), ggplot2, confintr
 Authors@R: person("Bernardo", "Sousa-Pinto",
                   role = c("cre", "aut"),
                   email = "bernardo@med.up.pt",
-                  comment = c(ORCID = "0000-0002-1277-3401"))
+                  comment = c(ORCID = "0000-0002-1277-3401")),
+           person("Rafael Jose", "Vieira", role= c("aut")), 
+           person("Manuel", "Marques-Cruz", role=c("aut")), 
+           person("Luis Filipe", "Azevedo", role=c("aut")), 
+           person("Guido", "Schwarzer", role=c("aut"))  
 Author: Bernardo Sousa-Pinto [cre, aut] (<https://orcid.org/0000-0002-1277-3401>)
 Maintainer: Bernardo Sousa-Pinto <bernardo@med.up.pt>
 URL: https://github.com/
