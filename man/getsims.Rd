@@ -10,19 +10,19 @@ Obtains a matrix containing the simulation results of the effect size measures o
 }
 
 \usage{
-getsims(obj, param, package=c("R2OpenBUGS","R2jags","rjags","brms","metafor"),
+getsims(obj, param, package=c("R2OpenBUGS","R2jags","rjags","brms","metafor","meta"),
  nsims=10000, t_exp = FALSE)
 }
 
 \arguments{
-  \item{obj}{Object obtained after performing meta-analysis using the functions \code{bugs()} [R2OpenBUGS package], \code{jags()} [R2jags package], \code{jags.samples()} [rjags package], \code{brm()} [brms package] or \code{rma()} [metafor package].}
-  \item{param}{Parameter corresponding to the effect size measures of the primary studies (R2OpenBUGS, R2jags, rjags packages) or to the name of the column that contains the unique identification of each primary study in the dataframe containing the results of primary studies used for meta-analysis (brms package). This argument is not defined if meta-analysis has been performed using metaform package}
-  \item{package}{Indication of the package that was used to implement meta-analysis in R. It can either be defined as \code{"R2OpenBUGS"}, \code{"R2jags"}, \code{"rjags"}, \code{"brms"} or \code{"metafor"}.}
-  \item{nsims}{Number of simulations to be performed in case meta-analysis had been performed with with the \code{rma()} function of the metafor package. Default is 10000.}
+  \item{obj}{Object obtained after performing meta-analysis using the functions \code{bugs()} [R2OpenBUGS package], \code{jags()} [R2jags package], \code{jags.samples()} [rjags package], \code{brm()} [brms package], \code{rma()} [metafor package] or those of [meta package] (\code{metabin}, \code{metacont} or \code{metagen}).}
+  \item{param}{Parameter corresponding to the effect size measures of the primary studies (R2OpenBUGS, R2jags, rjags packages) or to the name of the column that contains the unique identification of each primary study in the dataframe containing the results of primary studies used for meta-analysis (brms package). This argument is not defined if meta-analysis has been performed using metafor or meta packages.}
+  \item{package}{Indication of the package that was used to implement meta-analysis in R. It can either be defined as \code{"R2OpenBUGS"}, \code{"R2jags"}, \code{"rjags"}, \code{"brms"}, \code{"metafor"} or \code{"meta"}.}
+  \item{nsims}{Number of simulations to be performed in case meta-analysis had been performed with with the \code{rma()} function of the metafor package or with the functions of the meta package. Default is 10000.}
   \item{t_exp}{A logical value indicating whether to perform an exponential transformation on the effect size measures of the primary studies. If \code{t_exp = TRUE}, an exponential transformation will be applied (potentially useful if effect size measures of the primary studies have been computed in the natural logarithm scale). If \code{t_exp = FALSE}, no such transformation will be applied.}
 }
 \details{
-The \code{getsims} function takes as input an object resulting from the implementation of a meta-analytical model in R2OpenBUGS, R2jags, rjags, brms or metafor. This function allows to obtain a matrix containing the simulation results of the effect size measures of the primary studies. This matrix can then be used as an input for the functions \code{\link{inc_bin}}, \code{\link{inc_md}}, \code{\link{inc_smd}} or \code{\link{inc_oth}} for estimation of the Decision Inconsistency index and the Across-Studies Inconsistency index.
+The \code{getsims} function takes as input an object resulting from the implementation of a meta-analytical model in R2OpenBUGS, R2jags, rjags, brms, metafor or meta. This function allows to obtain a matrix containing the simulation results of the effect size measures of the primary studies. This matrix can then be used as an input for the function \code{\link{inc}} for estimation of the Decision Inconsistency index and the Across-Studies Inconsistency index.
 }
 \value{A matrix containing the simulation results of the effect size measures for each primary study.
 }
