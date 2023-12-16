@@ -1,4 +1,4 @@
-getsims <- function(obj,param,package=c("R2OpenBUGS","R2jags","rjags","brms","metafor"),nsims=10000,t_exp=FALSE){
+getsims <- function(obj,param,package=c("R2OpenBUGS","R2jags","rjags","brms","metafor","meta"),nsims=10000,t_exp=FALSE){
   if(missing(package)){
     if(substr(obj$call[1],1,3)=="rma"){
       N <- length(obj$vi.f)
@@ -17,14 +17,32 @@ getsims <- function(obj,param,package=c("R2OpenBUGS","R2jags","rjags","brms","me
 
       if(t_exp){return(exp(sims))} else {return(sims)}
     }else{
-      if(obj$backend=="rstan"){
-        sims_df <- as.data.frame(obj$fit)
-        sims_l <- sims_df[, grepl(paste0("r_",param), names(sims_df))]
-        sims <- as.matrix(sims_l)
-        if(t_exp){return(exp(sims))} else {return(sims)}
+        if(class(obj)[2]=="meta"){
+          obj1 <- metareg(obj,1)
+          N <- length(obj1$vi.f)
+          m0 <- blup(obj1)
+          yi <- m0$pred
+          sei <- m0$se
+
+          db <- data.frame("V1"=seq(1:nsims))
+          for(i in 1:N){
+            a <- rnorm(nsims,yi[i],sei[i])
+            db <- cbind(db,a)
+          }
+
+          sims <- db[,2:(N+1)]
+          sims <- as.matrix(sims)
+
+          if(t_exp){return(exp(sims))} else {return(sims)}
       }else{
+        if(class(obj)[1]=="brmsfit"){
+          sims_df <- as.data.frame(obj$fit)
+          sims_l <- sims_df[, grepl(paste0("r_",param), names(sims_df))]
+          sims <- as.matrix(sims_l)
+          if(t_exp){return(exp(sims))} else {return(sims)}
+        }else{
     stop("Please indicate the name of the package for meta-analysis")
-  }}}else{
+  }}}}else{
   if(package=="R2OpenBUGS"){
     sims <- as.data.frame(obj$sims.list[param])
     sims <- as.matrix(sims)
@@ -73,8 +91,26 @@ getsims <- function(obj,param,package=c("R2OpenBUGS","R2jags","rjags","brms","me
 
           if(t_exp){return(exp(sims))} else {return(sims)}
         }else{
-            stop("Please note that the package for Bayesian analysis should either be 'R2OpenBUGS', 'R2jags', 'rjags' or 'brms'")
-          }}
+          if(package=="meta"){
+            obj1 <- metareg(obj,1)
+            N <- length(obj1$vi.f)
+            m0 <- blup(obj1)
+            yi <- m0$pred
+            sei <- m0$se
+
+            db <- data.frame("V1"=seq(1:nsims))
+            for(i in 1:N){
+              a <- rnorm(nsims,yi[i],sei[i])
+              db <- cbind(db,a)
+            }
+
+            sims <- db[,2:(N+1)]
+            sims <- as.matrix(sims)
+
+            if(t_exp){return(exp(sims))} else {return(sims)}
+          }else{
+            stop("Please note that the package for meta-analysis should either be 'R2OpenBUGS', 'R2jags', 'rjags', 'brms', 'metafor' and 'meta'")
+          }}}
         }
       }
     }}}
