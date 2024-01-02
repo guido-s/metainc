@@ -30,3 +30,11 @@ install()
 ## (5) Check R package
 ##
 check()
+
+
+##
+## (6) Check examples
+##
+setwd("..")
+run_examples("metainc", run_dontrun = TRUE, run_donttest = TRUE)
+warnings()

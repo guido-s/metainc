@@ -23,7 +23,7 @@
   The \code{inc_subset} function computes the Decision Inconsistency index and the Across-Studies Inconsistency index for subsets (subgroups) of studies. This function takes, as its single argument, an object of the class \code{inc}.
 }
 
-\value{An object of class \code{inc_subset}, for which some standard methods are available, see \code{\link{inc_subset-class}}. Some of the components include:
+\value{An object of class \code{inc_subset}, for which some standard methods are available. Some of the components include:
     \item{DI}{A percentage corresponding to the Decision Inconsistency index for the considered subset. The higher/closer to 100\% the value, the higher the inconsistency.}
   \item{ASI}{A percentage corresponding to the Across-Studies Inconsistency index for the considered subset. The higher/closer to 100\% the value, the higher the across-studies inconsistency.}
   \item{class_distribution}{A dataframe displaying the proportion of simulations indicating:
@@ -43,15 +43,25 @@
   ## Example with subset analysis restricted to studies with a low risk of bias:
 
   data(anticoagulation)
-  inc_anticoagulation <- inc(sims=anticoagulation, t1=20, t2=30, t3=40, br=0.5, sm="or")
-  subset_anticoagulation <- inc_subset(object = inc_anticoagulation, data = anticoagulation_df, variable = RoB, subset = "Low")
-  subset_anticoagulation
+  inc_anticoagulation <-
+    inc(log(anticoagulation), t1=20, t2=30, t3=40, br=0.5, sm="or")
   
   
-  ## Example with subset analysis excluding studies with a high risk of bias:
-
-  data(anticoagulation)
-  inc_anticoagulation <- inc(sims=anticoagulation, t1=20, t2=30, t3=40, br=0.5, sm="or")
-  subset_anticoagulation <- inc_subset(object = inc_anticoagulation, data = anticoagulation_df, variable = RoB, subset = "High", exc=TRUE)
-  subset_anticoagulation
+#  data(anticoagulation_df)
+#  subset_anticoagulation <-
+#    inc_subset(object = inc_anticoagulation, data = anticoagulation_df,
+#    variable = "RoB", subset = "Low")
+#  subset_anticoagulation
+#  
+#  
+#  ## Example with subset analysis excluding studies with a high risk of bias:
+#
+#  inc_anticoagulation <-
+#    inc(log(anticoagulation), t1=20, t2=30, t3=40, br=0.5, sm="or")
+#  
+#  data(anticoagulation_df)
+#  subset_anticoagulation <-
+#    inc_subset(object = inc_anticoagulation, data = anticoagulation_df,
+#    variable = "RoB", subset = "High", exc=TRUE)
+#  subset_anticoagulation
 }

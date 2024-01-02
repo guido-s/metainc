@@ -1,3 +1,5 @@
+#' @export inc_subset
+
 inc_subset <- function(object,data,variable,subset,exc=FALSE){
   
   catch <- function(argname, matchcall, data, encl)
