@@ -1,7 +1,7 @@
-#' anticoagulation
+#' Simulated effect sizes from Akl et al. (2017)
 #' 
 #' @description
-#' Matrix anticoagulation
+#' Matrix with simulated effect sizes from Akl et al. (2017).
 #' 
 #' @name anticoagulation
 #' @aliases anticoagulation
@@ -9,10 +9,19 @@
 #' @docType data
 #' 
 #' @format A matrix with 5000 simulated odds ratios (rows) for 18 studies
-#' (columns).
+#' (columns) following a Bayesian meta-analysis.
+#' 
+#' @details
+#' The \code{anticoagulation} data is from Akl et al. (2017) and displays
+#' results presented as mean differences. Each column corresponds
+#' to a different primary study.
 #' 
 #' @source
-#' Add reference to source (if available).
+#' Akl, E. A., Kahale, L. A., Hakoum, M. B., Matar, C. F., Sperati, F.,
+#' Barba, M., et al. (2017).
+#' \dQuote{Parenteral anticoagulation in ambulatory patients with cancer.}
+#' \emph{Cochrane Database of Systematic Reviews},
+#' \bold{9}: CD006652.
 #'
 #' @keywords datasets
 #' 

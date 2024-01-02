@@ -3,15 +3,25 @@
 \docType{data}
 \name{anticoagulation_df}
 \alias{anticoagulation_df}
-\title{anticoagulation_df}
-\format{
-A dataset with 17 studies and 7 variables.
-}
+\title{Data set with data from Akl et al. (2017)}
 \source{
-Add reference to source (if available).
+Akl, E. A., Kahale, L. A., Hakoum, M. B., Matar, C. F., Sperati, F.,
+Barba, M., et al. (2017).
+\dQuote{Parenteral anticoagulation in ambulatory patients with cancer.}
+\emph{Cochrane Database of Systematic Reviews},
+\bold{9}: CD006652.
 }
 \description{
-Meta-analysis dataset anticoagulation_df
+Data set with data from Akl et al. (2017)
+}
+\details{
+The \code{anticoagulation_df} dataframe displays, for each primary study of
+the meta-analysis from Akl et al. (2017):
+(i) the number of events and the total number of participants for each
+group,
+(ii) its effect size measure [ln OR] (\code{yi} variable),
+(iii) the respective variance (\code{vi} variable),
+and (iv) the risk of bias (\code{RoB} variable).
 }
 \examples{
 data("anticoagulation_df")

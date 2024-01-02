@@ -212,20 +212,13 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
   # (2) Transform / back transform effect sizes and decision thresholds
   #
   
-  if (!transf.dt) {
-    if (!avail.br)
+  if (!transf.dt && !(sm %in% c("OR", "RR", "HR") & avail.br)) {
       t1 <- transf(t1, sm)
-    else {
-      if (t1 < 0)
-        t1 <- - transf(-t1, sm)
-      else
-        t1 <- transf(t1, sm)
-    }
-    #
-    if (only.t12 | avail.t123)
-      t2 <- transf(t2, sm)
-    if (avail.t123)
-      t3 <- transf(t3, sm)
+      #
+      if (only.t12 | avail.t123)
+        t2 <- transf(t2, sm)
+      if (avail.t123)
+        t3 <- transf(t3, sm)
   }
   #
   if ((is_relative_effect(sm) & !avail.br) || sm == "GEN_ratio")
@@ -242,26 +235,13 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
       simdat <- scale * (br * simdat - br)
     else
       simdat <- -scale * (br - (1 - (1 - br)^simdat))
-    #
-    t1 <- backtransf(t1, sm)
-    #
-    if (only.t12 | avail.t123)
-      t2 <- backtransf(t2, sm)
-    if (avail.t123)
-      t3 <- backtransf(t3, sm)
-    # Decision thresholds on log scale
-    #
-    t1 <- log(t1)
-    #
-    if (only.t12 | avail.t123)
-      t2 <- log(t2)
-    if (avail.t123)
-      t3 <- log(t3)
   }
   #
   if (only.t1) {
     n.cat <- 3
     labs <- c("lower", "trivial", "higher")
+    if (t1 == 0)
+      t1 <- 1 + 1e-12
     cuts <- sort(c(-t1, t1))
   }
   else if (only.t12) {
@@ -274,6 +254,9 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
     labs <- c("large (lower)", "moderate (lower)", "small (lower)",
               "not meaningful",
               "small (higher)", "moderate (higher)", "large (higher)")
+    #
+    if (t1 == 0)
+      t1 <- 1 + 1e-12
     cuts <- sort(c(-t3, -t2, -t1, t1, t2, t3))
   }
   
@@ -343,18 +326,6 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
   # (4) Return results
   #
   
-  if (sm %in% c("OR", "RR", "HR") & avail.br) {
-    if (t1 < 0)
-      t1 <- - transf(-t1, sm)
-    else
-      t1 <- transf(t1, sm)
-    #
-    if (only.t12 | avail.t123)
-      t2 <- transf(t2, sm)
-    if (avail.t123)
-      t3 <- transf(t3, sm)
-  }
-  #
   res <- list(ASI = ds, DI = di, class_distribution = cl,
               prop_over_null = propnull,
               stud_class = simdat.dt,
