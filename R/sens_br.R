@@ -12,7 +12,7 @@
 #'   ratios.
 #' @param br1 Smallest baseline risk considered.
 #' @param br2 Largest baseline risk considered.
-#' @param t1 A single numeric defining the decision threshold to distinguish
+#' @param dt1 A single numeric defining the decision threshold to distinguish
 #'   meaningful from trivial effects.
 #' @param sm A character string indicating the summary measure used in
 #'   primary studies (either \code{sm = "OR"}, \code{sm = "RR"} or 
@@ -67,14 +67,14 @@
 #' 
 #' @examples
 #' data(anticoagulation)
-#' dis <- sens_br(log(anticoagulation),  br1 = 0.3, br2 = 0.7, t = 20,
+#' dis <- sens_br(log(anticoagulation),  br1 = 0.3, br2 = 0.7, dt1 = 20,
 #'   sm = "OR", by = 0.1)
 #' dis
 #' plot(dis, ylim1 = c(50, 70), ylim2 = c(20, 30))
 #'
 #' @export sens_br
 
-sens_br <- function(x, br1, br2, t1, sm, by = 0.01, scale = 1000) {
+sens_br <- function(x, br1, br2, dt1, sm, by = 0.01, scale = 1000) {
   
   #
   # (1) Check arguments
@@ -97,7 +97,7 @@ sens_br <- function(x, br1, br2, t1, sm, by = 0.01, scale = 1000) {
                   nchar.equal = TRUE)
   }
   #
-  chknumeric(t1, length = 1)
+  chknumeric(dt1, length = 1)
   #
   chknumeric(br1, min = 0, length = 1)
   chknumeric(br2, min = 0, length = 1)
@@ -120,7 +120,7 @@ sens_br <- function(x, br1, br2, t1, sm, by = 0.01, scale = 1000) {
   classif <- data.frame("higher" = c(), "lower" = c(), "trivial" = c())
   #
   for (i in seq_along(seq_br)) {
-    inc.i <- inc(simdat, t1 = t1, sm = sm, br = seq_br[i], scale = scale)
+    inc.i <- inc(simdat, dt1 = dt1, sm = sm, br = seq_br[i], scale = scale)
     #
     asi[i] <- inc.i$ASI
     di[i] <- inc.i$DI
@@ -131,7 +131,7 @@ sens_br <- function(x, br1, br2, t1, sm, by = 0.01, scale = 1000) {
   #
   attr(res, "br1") <- br1
   attr(res, "br2") <- br2
-  attr(res, "t1") <- t1
+  attr(res, "dt1") <- dt1
   attr(res, "sm") <- sm
   attr(res, "by") <- by
   attr(res, "scale") <- scale

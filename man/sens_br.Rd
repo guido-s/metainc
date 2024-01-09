@@ -5,7 +5,7 @@
 \alias{plot.sens_br}
 \title{Sensitivity analysis (based on the baseline risk) for the Decision Inconsistency index and Across-Studies Inconsistency index}
 \usage{
-sens_br(x, br1, br2, t1, sm, by = 0.01, scale = 1000)
+sens_br(x, br1, br2, dt1, sm, by = 0.01, scale = 1000)
 
 \method{plot}{sens_br}(
   x,
@@ -26,7 +26,7 @@ ratios.}
 
 \item{br2}{Largest baseline risk considered.}
 
-\item{t1}{A single numeric defining the decision threshold to distinguish
+\item{dt1}{A single numeric defining the decision threshold to distinguish
 meaningful from trivial effects.}
 
 \item{sm}{A character string indicating the summary measure used in
@@ -79,7 +79,7 @@ assumed that this threshold value is provided per 1000 people (argument
 }
 \examples{
 data(anticoagulation)
-dis <- sens_br(log(anticoagulation),  br1 = 0.3, br2 = 0.7, t = 20,
+dis <- sens_br(log(anticoagulation),  br1 = 0.3, br2 = 0.7, dt1 = 20,
   sm = "OR", by = 0.1)
 dis
 plot(dis, ylim1 = c(50, 70), ylim2 = c(20, 30))

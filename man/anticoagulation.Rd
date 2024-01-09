@@ -25,7 +25,7 @@ to a different primary study.
 }
 \examples{
 data(anticoagulation)
-dis <- inc(log(anticoagulation), br = 0.3, t1 = 20, sm = "OR")
+dis <- inc(log(anticoagulation), br = 0.3, dt1 = 20, sm = "OR")
 dis
 }
 \seealso{

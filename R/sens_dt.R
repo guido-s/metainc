@@ -147,7 +147,7 @@ sens_dt <- function(x, br = NULL, min1, max1, min2, max2, sm, by = 1,
   classif <- data.frame("higher" = c(), "lower" = c(), "trivial" = c())
   #
   for (i in seq_len(N)) {
-    inc.i <- inc(simdat, t1 = seq1[i], t2 = seq2[i], sm = sm, br = br,
+    inc.i <- inc(simdat, dt1 = seq1[i], dt2 = seq2[i], sm = sm, br = br,
                  scale = scale)
     #
     asi[i] <- inc.i$ASI

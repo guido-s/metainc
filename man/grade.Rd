@@ -73,8 +73,9 @@ Details ...
 \examples{
 data(anticoagulation)
 inc_anticoagulation <-
-  inc(log(anticoagulation), t1 = 20, t2 = 30, t3 = 40, br = 0.5, sm = "or")
-sens <- inf(inc_anticoagulation)
+  inc(log(anticoagulation), dt1 = 20, dt2 = 30, dt3 = 40,
+    br = 0.5, sm = "or")
+sens <- sens_inf(inc_anticoagulation)
 sens
 
 }

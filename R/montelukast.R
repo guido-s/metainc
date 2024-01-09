@@ -29,6 +29,6 @@
 #'
 #' @examples
 #' data(montelukast)
-#' inc(montelukast, t1 = 0.2, t2 = 0.4, t3 = 0.6, sm = "md")
+#' inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "md")
 
 NULL

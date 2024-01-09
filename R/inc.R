@@ -7,15 +7,15 @@
 #'
 #' @param x An R object of class \code{sims} or a matrix containing the 
 #'   simulated effect sizes of primary studies.
-#' @param t1 A single numeric defining the decision threshold to distinguish
-#'   (i) meaningful from trivial effects, if arguments \code{t2} and \code{t3}
+#' @param dt1 A single numeric defining the decision threshold to distinguish
+#'   (i) meaningful from trivial effects, if arguments \code{dt2} and \code{dt3}
 #'   are not provided, (ii) negative from trivial effects, if only argument
-#'   \code{t2} is also provided or (iii) small from trivial effects if
-#'   arguments \code{t2} and \code{t3} are provided.
-#' @param t2 A single numeric defining the decision threshold to distinguish
-#'   (i) positive from trivial effects if argument \code{t3} is not provided
-#'   or (ii) moderate from small effects, if argument \code{t3} is provided.
-#' @param t3 A single numeric defining the decision threshold to distinguish
+#'   \code{dt2} is also provided or (iii) small from trivial effects if
+#'   arguments \code{dt2} and \code{dt3} are provided.
+#' @param dt2 A single numeric defining the decision threshold to distinguish
+#'   (i) positive from trivial effects if argument \code{dt3} is not provided
+#'   or (ii) moderate from small effects, if argument \code{dt3} is provided.
+#' @param dt3 A single numeric defining the decision threshold to distinguish
 #'   large from moderate effects.
 #' @param sm A character string indicating the summary measure used in
 #'   primary studies (see Details).
@@ -42,9 +42,9 @@
 #' Across-Studies Inconsistency index (ASI) for meta-analyses. The following
 #' possibilities are considered depending on the type of effect size measures:
 #'   \itemize{
-#'     \item Effect size measure corresponding to a ratio (\code{sm = "OR"}, \code{"RR"} or \code{"HR"}) with the DI and the ASI being calculated based on absolute effects: This requires the setting of a baseline risk (i.e., \code{br} must be defined). The decision threshold values (\code{t1}, \code{t2} and \code{t3} must be provided as absolute effects (i.e., number of additional or diminished events per N people. By default, it is assumed that these threshold values are provided per 1000 people. However, this can be changed using the \code{scale} argument).
-#'     \item Effect size measure corresponding to a ratio (\code{sm} = \code{"OR"}, \code{"RR"}, \code{"HR"} or \code{"GEN_ratio"}) with the DI and the ASI being calculated based on relative effect size measures: The simulation results of relative effect size measures of primary studies are directly compared with decision thresholds (\code{t1}, \code{t2}, \code{t3}) also expressed as relative effect size measures. This is the adopted approach when no information is provided on the baseline risk (\code{br}).
-#'     \item Effect size measure corresponding to a difference (\code{sm = "MD"}, \code{"SMD"}, \code{"RD"} or \code{"GEN_diff"}): The simulation results of the effect size measures of primary studies are directly compared with decision thresholds (\code{t1}, \code{t2}, \code{t3}) also expressed as differences.
+#'     \item Effect size measure corresponding to a ratio (\code{sm = "OR"}, \code{"RR"} or \code{"HR"}) with the DI and the ASI being calculated based on absolute effects: This requires the setting of a baseline risk (i.e., \code{br} must be defined). The decision threshold values (\code{dt1}, \code{dt2} and \code{dt3} must be provided as absolute effects (i.e., number of additional or diminished events per N people. By default, it is assumed that these threshold values are provided per 1000 people. However, this can be changed using the \code{scale} argument).
+#'     \item Effect size measure corresponding to a ratio (\code{sm} = \code{"OR"}, \code{"RR"}, \code{"HR"} or \code{"GEN_ratio"}) with the DI and the ASI being calculated based on relative effect size measures: The simulation results of relative effect size measures of primary studies are directly compared with decision thresholds (\code{dt1}, \code{dt2}, \code{dt3}) also expressed as relative effect size measures. This is the adopted approach when no information is provided on the baseline risk (\code{br}).
+#'     \item Effect size measure corresponding to a difference (\code{sm = "MD"}, \code{"SMD"}, \code{"RD"} or \code{"GEN_diff"}): The simulation results of the effect size measures of primary studies are directly compared with decision thresholds (\code{dt1}, \code{dt2}, \code{dt3}) also expressed as differences.
 #'   }
 #'   
 #' Of note, when dealing with relative effect size measures, judgements based
@@ -53,8 +53,8 @@
 #' relative effect size measures are those used in the GRADE approach
 #' (see References below).
 #' 
-#' Either only argument \code{t1} or arguments  \code{t1}, \code{t2} and
-#' \code{t3} must be provided.
+#' Either only argument \code{dt1} or arguments  \code{dt1}, \code{dt2} and
+#' \code{dt3} must be provided.
 #' 
 #' Argument \code{sm} must be \code{"OR"} (odds ratio),
 #' \code{"RR"} (risk ratio), \code{"HR"} (hazard ratio),
@@ -118,14 +118,15 @@
 #' 
 #' data(anticoagulation)
 #' inc_anticoagulation <-
-#'   inc(anticoagulation, t1 = 20, t2 = 30, t3 = 40, br = 0.5, sm = "or",
+#'   inc(anticoagulation, dt1 = 20, dt2 = 30, dt3 = 40, br = 0.5, sm = "or",
 #'       transf = FALSE)
 #' inc_anticoagulation
 #' 
 #' \dontrun{
 #' # Same result
 #' inc_anticoagulation <-
-#'   inc(log(anticoagulation), t1 = 20, t2 = 30, t3 = 40, br = 0.5, sm = "or")
+#'   inc(log(anticoagulation), dt1 = 20, dt2 = 30, dt3 = 40,
+#'     br = 0.5, sm = "or")
 #' inc_anticoagulation
 #' 
 #' # Example with calculation of the Decision Inconsistency index and the 
@@ -133,7 +134,7 @@
 #' # as mean differences:
 #' 
 #' data(montelukast)
-#' inc_montelukast <- inc(montelukast, t1 = 0.2, t2 = 0.4, t3 = 0.6, sm = "md")
+#' inc_montelukast <- inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "md")
 #' inc_montelukast
 #' }
 #'
@@ -144,7 +145,7 @@
 #' @importFrom utils head
 #' @importFrom confintr ci_cramersv
 
-inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
+inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
                 transf = TRUE, transf.dt = FALSE) {
   
   #
@@ -173,30 +174,30 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
       simdat <- transf(simdat, sm)
   }
   #
-  only.t1 <- !missing(t1) & missing(t2) & missing(t3)
-  only.t12 <- !(missing(t1) | missing(t2)) & missing(t3)
-  avail.t123 <- !(missing(t1) | missing(t2) | missing(t3))
+  only.dt1 <- !missing(dt1) & missing(dt2) & missing(dt3)
+  only.dt12 <- !(missing(dt1) | missing(dt2)) & missing(dt3)
+  avail.dt123 <- !(missing(dt1) | missing(dt2) | missing(dt3))
   #
-  if (!only.t1 & !only.t12 & !avail.t123)
-    stop("You must provide an input for either (i) argument 't1' or ",
-         "(ii) argument 't1' and 't2' or ",
-         "(iii) arguments 't1', 't2' and 't3'.",
+  if (!only.dt1 & !only.dt12 & !avail.dt123)
+    stop("You must provide an input for either (i) argument 'dt1' or ",
+         "(ii) argument 'dt1' and 'dt2' or ",
+         "(iii) arguments 'dt1', 'dt2' and 'dt3'.",
          call. = FALSE)
   #
-  if (only.t12) {
-    chknumeric(t1, max = 0, zero = TRUE, length = 1)
-    chknumeric(t2, min = 0, zero = TRUE, length = 1)
+  if (only.dt12) {
+    chknumeric(dt1, max = 0, zero = TRUE, length = 1)
+    chknumeric(dt2, min = 0, zero = TRUE, length = 1)
   }
   else
-    chknumeric(t1, min = 0, zero = TRUE, length = 1)
+    chknumeric(dt1, min = 0, zero = TRUE, length = 1)
   #
-  if (avail.t123) {
-    chknumeric(t2, min = 0, zero = TRUE)
-    chknumeric(t3, min = 0, zero = TRUE)
+  if (avail.dt123) {
+    chknumeric(dt2, min = 0, zero = TRUE)
+    chknumeric(dt3, min = 0, zero = TRUE)
     #
-    if (t2 <= t1 | t3 <= t1 | t3 <= t2)
-      stop("Values provided for arguments 't1', 't2' and 't3' ",
-           "must be in increasing order: t1 < t2 < t3")
+    if (dt2 <= dt1 | dt3 <= dt1 | dt3 <= dt2)
+      stop("Values provided for arguments 'dt1', 'dt2' and 'dt3' ",
+           "must be in increasing order: dt1 < dt2 < dt3")
   }
   #
   avail.br <- !is.null(br)
@@ -213,12 +214,12 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
   #
   
   if (!transf.dt && !(sm %in% c("OR", "RR", "HR") & avail.br)) {
-      t1 <- transf(t1, sm)
+      dt1 <- transf(dt1, sm)
       #
-      if (only.t12 | avail.t123)
-        t2 <- transf(t2, sm)
-      if (avail.t123)
-        t3 <- transf(t3, sm)
+      if (only.dt12 | avail.dt123)
+        dt2 <- transf(dt2, sm)
+      if (avail.dt123)
+        dt3 <- transf(dt3, sm)
   }
   #
   if ((is_relative_effect(sm) & !avail.br) || sm == "GEN_ratio")
@@ -237,17 +238,17 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
       simdat <- -scale * (br - (1 - (1 - br)^simdat))
   }
   #
-  if (only.t1) {
+  if (only.dt1) {
     n.cat <- 3
     labs <- c("lower", "trivial", "higher")
-    if (t1 == 0)
-      t1 <- 1 + 1e-12
-    cuts <- sort(c(-t1, t1))
+    if (dt1 == 0)
+      dt1 <- 1 + 1e-12
+    cuts <- sort(c(-dt1, dt1))
   }
-  else if (only.t12) {
+  else if (only.dt12) {
     n.cat <- 3
     labs <- c("lower", "trivial", "higher")
-    cuts <- sort(c(t1, t2))
+    cuts <- sort(c(dt1, dt2))
   }
   else {
     n.cat <- 7
@@ -255,9 +256,9 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
               "not meaningful",
               "small (higher)", "moderate (higher)", "large (higher)")
     #
-    if (t1 == 0)
-      t1 <- 1 + 1e-12
-    cuts <- sort(c(-t3, -t2, -t1, t1, t2, t3))
+    if (dt1 == 0)
+      dt1 <- 1 + 1e-12
+    cuts <- sort(c(-dt3, -dt2, -dt1, dt1, dt2, dt3))
   }
   
   #
@@ -292,7 +293,7 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
   else {
     suppressWarnings(v <- ci_cramersv(stats::chisq.test(tab.dt)))
     #
-    if (!avail.t123) {
+    if (!avail.dt123) {
       if (nc == 2 & N > 2)
         ds <- 100 * sqrt(as.numeric(v$estimate)^2 / 2)
       else
@@ -329,11 +330,13 @@ inc <- function(x, t1, t2, t3, sm, br = NULL, scale = 1000,
   res <- list(ASI = ds, DI = di, class_distribution = cl,
               prop_over_null = propnull,
               stud_class = simdat.dt,
-              t1 = t1,
-              t2 = if (only.t12 | avail.t123) t2 else NA,
-              t3 = if (avail.t123) t3 else NA,
+              dt1 = dt1,
+              dt2 = if (only.dt12 | avail.dt123) dt2 else NA,
+              dt3 = if (avail.dt123) dt3 else NA,
               br = if (avail.br) br else NA,
               scale = scale, sm = sm,
+              transf = transf, transf.dt = transf.dt,
+              x = x,
               call = match.call())
   class(res) <- "inc"
   #

@@ -4,18 +4,18 @@
 #' Computation of the Decision Inconsistency index for each individual primary study and leave-one-out sensitivity analysis for the Decision Inconsistency index and the Across-Studies Inconsistency index.
 #'
 #' @param x An R object of class \code{inc}.
-#' @param object An R object of class \code{inf}.
+#' @param object An R object of class \code{sens_inf}.
 #' @param \dots Additional arguments (ignored).
 #'
 #' @details
-#' The \code{inf} function (i) computes the Decision Inconsistency index (DI)
-#' for each individual primary study and (ii) performs leave-one-out
+#' The \code{sens_inf} function (i) computes the Decision Inconsistency index
+#' (DI) for each individual primary study and (ii) performs leave-one-out
 #' sensitivity analysis for the DI and for the Across-Studies Inconsistency
 #' index. This function takes, as its single argument, an object of the class
 #' \code{inc}.
 #' 
 #' @return
-#' The \code{inf} function generates:
+#' The \code{sens_inf} function generates:
 #' \item{di_stud}{A dataframe displaying the Decision Inconsistency Index for each individual primary study.}
 #' \item{di_asi_sens}{A dataframe displaying the results of the leave-one-out sensitivity analysis for the Decision Inconsistency index and the Across-Studies Inconsistency index.}
 #' 
@@ -25,13 +25,14 @@
 #' @examples
 #' data(anticoagulation)
 #' inc_anticoagulation <-
-#'   inc(log(anticoagulation), t1 = 20, t2 = 30, t3 = 40, br = 0.5, sm = "or")
-#' sens <- inf(inc_anticoagulation)
+#'   inc(log(anticoagulation), dt1 = 20, dt2 = 30, dt3 = 40,
+#'     br = 0.5, sm = "or")
+#' sens <- sens_inf(inc_anticoagulation)
 #' sens
 #'
-#' @export inf
+#' @export sens_inf
 
-inf <- function(x) {
+sens_inf <- function(x) {
   
   #
   # (1) Check arguments
@@ -49,7 +50,7 @@ inf <- function(x) {
   
   simsm <- as.matrix(x)
   
-  if (is.na(object$t2)) {
+  if (is.na(object$dt2)) {
     di_stud <- data.frame("study"=c(),"di"=c())
     
     for(i in 1:N) {
@@ -70,7 +71,9 @@ inf <- function(x) {
     
     di_sens <- data.frame("study"=c(),"di"=c())
     
-    for(i in 1:N) {
+    for (i in 1:N) {
+      studlab.i <- colnames(simsm)[i]
+      #
       cl00 <- as.matrix(simsm[,-i])
       cl00 <- c(cl00)
       cl0 <- data.frame("classification"=cl00)
@@ -83,13 +86,15 @@ inf <- function(x) {
       cl1$proportion <- round((cl1$n)/sum(cl1$n),4)
       cl1$d <- abs((1/3) - cl1$proportion)
       di <- round((1-((0.5*sum(cl1$d))/(2/3)))*100,1)
-      dii <- data.frame("Removed study"=i,"DI"=di)
+      dii <- data.frame("Removed study" = studlab.i, DI = di)
       di_sens <- rbind(di_sens,dii)
     }
     
     ds_sens <- data.frame("study"=c(),"ds"=c())
     
-    for(i in 1:N) {
+    for (i in 1:N) {
+      studlab.i <- colnames(simsm)[i]
+      #
       sim_studd <- as.data.frame(x[,-i])
       NN <- ncol(sim_studd)
       
@@ -114,15 +119,17 @@ inf <- function(x) {
         }
       }
       #
-      dsi <- data.frame("Removed study"=i,"ASI"=ds)
-      ds_sens <- rbind(ds_sens,dsi)
+      dsi <- data.frame("Removed study" = studlab.i, ASI = ds)
+      ds_sens <- rbind(ds_sens, dsi)
     }
   }
   else {
     di_stud <- data.frame("study"=c(),"di"=c())
     
-    for(i in 1:N) {
-      cl00 <- c(simsm[,i])
+    for (i in 1:N) {
+      studlab.i <- colnames(simsm)[i]
+      #
+      cl00 <- simsm[, i]
       cl0 <- data.frame("classification"=cl00)
       cl01 <- with(cl0, tapply(classification, classification, FUN = length))
       cl01 <- data.frame(classification = names(cl01), n = unname(cl01))
@@ -140,13 +147,15 @@ inf <- function(x) {
       cl1$proportion <- round((cl1$n)/sum(cl1$n),4)
       cl1$d <- abs((1/7) - cl1$proportion)
       di <- round((1-((0.5*sum(cl1$d))/(6/7)))*100,1)
-      dii <- data.frame("Study"=i,"DI"=di)
+      dii <- data.frame("Study" = studlab.i, DI = di)
       di_stud <- rbind(di_stud,dii)
     }
     
-    di_sens <- data.frame("study"=c(),"di"=c())
+    di_sens <- data.frame("study" = c(),"di"=c())
     
     for(i in 1:N) {
+      studlab.i <- colnames(simsm)[i]
+      #
       cl00 <- as.matrix(simsm[,-i])
       cl00 <- c(cl00)
       cl0 <- data.frame("classification"=cl00)
@@ -159,13 +168,15 @@ inf <- function(x) {
       cl1$proportion <- round((cl1$n)/sum(cl1$n),4)
       cl1$d <- abs((1/7) - cl1$proportion)
       di <- round((1-((0.5*sum(cl1$d))/(6/7)))*100,1)
-      dii <- data.frame("Removed study"=i,"DI"=di)
-      di_sens <- rbind(di_sens,dii)
+      dii <- data.frame("Removed study" = studlab.i, DI = di)
+      di_sens <- rbind(di_sens, dii)
     }
     
     ds_sens <- data.frame("study"=c(),"ds"=c())
     
     for (i in 1:N) {
+      studlab.i <- colnames(simsm)[i]
+      #
       sim_studd <- as.data.frame(x[,-i])
       NN <- ncol(sim_studd)
       
@@ -196,14 +207,14 @@ inf <- function(x) {
         }
       }
       #
-      dsi <- data.frame("Removed study"=i,"ASI"=ds)
+      dsi <- data.frame("Removed study" = studlab.i, ASI = ds)
       ds_sens <- rbind(ds_sens,dsi)
     }
   }
   #
   di_asi_sens <- data.frame(di_sens,"ASI"=ds_sens$ASI)
   output <- list(di_stud = di_stud, di_asi_sens = di_asi_sens, call = match.call())
-  class(output) <- "inc_inf"
+  class(output) <- "sens_inf"
   output
 }
 
@@ -211,12 +222,12 @@ inf <- function(x) {
 
 
 
-#' @rdname inf
+#' @rdname sens_inf
 #' @keywords print
-#' @method print inf
+#' @method print sens_inf
 #' @export 
 
-print.inf <- function (x,...) {
+print.sens_inf <- function (x,...) {
   cat("Decision Inconsistency index (DI) for each individual primary study:", "\n")
   cat("\n")
   print(x$di_stud)
@@ -231,13 +242,13 @@ print.inf <- function (x,...) {
 
 
 
-#' @rdname inf
-#' @method summary inf
+#' @rdname sens_inf
+#' @method summary sens_inf
 #' @export 
 
-summary.inf <- function(object, ...) {
+summary.sens_inf <- function(object, ...) {
   output <- object
-  class(output) <- "summary.inf"
+  class(output) <- "summary.sens_inf"
   output
 }
 
@@ -245,13 +256,13 @@ summary.inf <- function(object, ...) {
 
 
 
-#' @rdname inc
+#' @rdname sens_inf
 #' @keywords print
-#' @method print summary.inf
+#' @method print summary.sens_inf
 #' @export 
 
 
-print.summary.inf <- function (x,...) {
+print.summary.sens_inf <- function (x,...) {
   cat("Decision Inconsistency index (DI) for each individual primary study:", "\n")
   cat("\n")
   print(x$di_stud)
