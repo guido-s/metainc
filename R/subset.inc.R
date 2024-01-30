@@ -26,9 +26,9 @@
 #' @examples
 #' data(anticoagulation)
 #' inc_anticoagulation <-
-#'   inc(log(anticoagulation), dt1 = 20, dt2 = 30, dt3 = 40,
-#'     br = 0.5, sm = "or")
-#' sens_inf(inc_anticoagulation)
+#'   inc(anticoagulation, dt1 = 16, dt2 = 31, dt3 = 60,
+#'     br = 0.5, sm = "OR", transf = FALSE)
+#' inc_anticoagulation
 #' 
 #' # Example with subset analysis restricted to studies with a low risk of bias:
 #' data(anticoagulation_df)
@@ -36,14 +36,12 @@
 #'   subset(inc_anticoagulation, data = anticoagulation_df,
 #'     RoB == "Low")
 #' subset1_anticoagulation
-#' sens_inf(subset1_anticoagulation)
 #'  
 #' # Example with subset analysis excluding studies with a high risk of bias
 #' # (resulting in the same subset of studies as no study has RoB "Moderate"):
 #' subset2_anticoagulation <-
 #'    subset(inc_anticoagulation, anticoagulation_df, RoB != "High")
 #' subset2_anticoagulation
-#' sens_inf(subset2_anticoagulation)
 #'
 #' @method subset inc
 #' @export

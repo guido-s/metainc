@@ -5,91 +5,140 @@
 #' Calculate Decision Inconsistency (DI) and Across-Studies Inconsistency (ASI)
 #' index
 #'
-#' @param x An R object of class \code{sims} or a matrix containing the 
-#'   simulated effect sizes of primary studies.
-#' @param dt1 A single numeric defining the decision threshold to distinguish
-#'   (i) meaningful from trivial effects, if arguments \code{dt2} and \code{dt3}
-#'   are not provided, (ii) negative from trivial effects, if only argument
-#'   \code{dt2} is also provided or (iii) small from trivial effects if
-#'   arguments \code{dt2} and \code{dt3} are provided.
-#' @param dt2 A single numeric defining the decision threshold to distinguish
-#'   (i) positive from trivial effects if argument \code{dt3} is not provided
-#'   or (ii) moderate from small effects, if argument \code{dt3} is provided.
-#' @param dt3 A single numeric defining the decision threshold to distinguish
-#'   large from moderate effects.
+#' @param x An R object of class \code{samples_metainc} or a matrix
+#'   containing the sampled effect sizes of primary studies.
+#' @param dt1 A single numeric defining the decision threshold to
+#'   distinguish (i) meaningful from trivial effects, if arguments
+#'   \code{dt2} and \code{dt3} are not provided, (ii) negative/harmful
+#'   from trivial effects, if only argument \code{dt2} is also
+#'   provided, or (iii) small from trivial effects if arguments
+#'   \code{dt2} and \code{dt3} are provided.
+#' @param dt2 A single numeric defining the decision threshold to
+#'   distinguish (i) positive/beneficial from trivial effects if
+#'   argument \code{dt3} is not provided, or (ii) moderate from small
+#'   effects if argument \code{dt3} is provided.
+#' @param dt3 A single numeric defining the decision threshold to
+#'   distinguish large from moderate effects.
 #' @param sm A character string indicating the summary measure used in
 #'   primary studies (see Details).
-#' @param br Baseline risk (only considered for odds, risk or hazard ratio).
-#' @param scale The number of people per which absolute decision thresholds are
-#'  provided (default: 1000, i.e., absolute decision threshold values are
-#'  defined per 1000 people). Only considered if \code{br} is not missing.
-#' @param transf A logical indicating whether the values of an effect size
-#'   matrix (argument \code{x}) are transformed. By default
-#'   (\code{transf = TRUE}), it is assumed that the matrix contains log odds
-#'   ratios instead of odds ratios, for example.
-#' @param transf.dt A logical indicating whether relative decision thresholds are
-#'   transformed or on the original scale. If \code{transf.dt = FALSE} (default),
-#'   relative decision thresholds are expected to be odds ratios instead of
-#'   log odds ratios for \code{sm = "OR"}, for example.
-#' @param digits Minimal number of significant digits to print percentages, see
-#'   \code{print.default}.
+#' @param br Baseline risk (only considered for odds, risk or hazard
+#'   ratio).
+#' @param utility Utility value.
+#' @param scale The number of people per which absolute decision
+#'   thresholds are provided (default: 1000, i.e., absolute decision
+#'   threshold values are defined per 1000 people). Only considered if
+#'   \code{br} is not missing.
+#' @param transf A logical indicating whether the values of an effect
+#'   size matrix (argument \code{x}) are to be transformed. By default
+#'   \code{transf = TRUE} (e.g., it is assumed that the matrix
+#'   contains log odds ratios instead of odds ratios).
+#' @param transf.dt A logical indicating whether relative decision
+#'   thresholds are transformed or on the original scale. If
+#'   \code{transf.dt = FALSE} (default), relative decision thresholds
+#'   are expected to be in the natural scale (e.g., odds ratios
+#'   instead of log odds ratios for \code{sm = "OR"}). Note, however,
+#'   that the GRADE working group recommends using absolute instead of
+#'   relative decision thresholds.
+#' @param digits Minimal number of significant digits to print
+#'   percentages, see \code{print.default}.
 #' @param object R object of class \code{inc}.
 #' @param \dots Additional arguments (ignored)
 #'
 #' @details
-#' 
-#' This function calculates the Decision Inconsistency index (DI) and the
-#' Across-Studies Inconsistency index (ASI) for meta-analyses. The following
-#' possibilities are considered depending on the type of effect size measures:
-#'   \itemize{
-#'     \item Effect size measure corresponding to a ratio (\code{sm = "OR"}, \code{"RR"} or \code{"HR"}) with the DI and the ASI being calculated based on absolute effects: This requires the setting of a baseline risk (i.e., \code{br} must be defined). The decision threshold values (\code{dt1}, \code{dt2} and \code{dt3} must be provided as absolute effects (i.e., number of additional or diminished events per N people. By default, it is assumed that these threshold values are provided per 1000 people. However, this can be changed using the \code{scale} argument).
-#'     \item Effect size measure corresponding to a ratio (\code{sm} = \code{"OR"}, \code{"RR"}, \code{"HR"} or \code{"GEN_ratio"}) with the DI and the ASI being calculated based on relative effect size measures: The simulation results of relative effect size measures of primary studies are directly compared with decision thresholds (\code{dt1}, \code{dt2}, \code{dt3}) also expressed as relative effect size measures. This is the adopted approach when no information is provided on the baseline risk (\code{br}).
-#'     \item Effect size measure corresponding to a difference (\code{sm = "MD"}, \code{"SMD"}, \code{"RD"} or \code{"GEN_diff"}): The simulation results of the effect size measures of primary studies are directly compared with decision thresholds (\code{dt1}, \code{dt2}, \code{dt3}) also expressed as differences.
-#'   }
+#' This function calculates the Decision Inconsistency index (DI) and
+#' the Across-Studies Inconsistency index (ASI) for meta-analyses. The
+#' following possibilities are considered depending on the type of
+#' effect size measures:
+#' \itemize{
+#' \item Effect size measure corresponding to a ratio (\code{sm =
+#'   "OR"}, \code{"RR"} or \code{"HR"}) with the DI and the ASI being
+#'   calculated based on absolute effects: This requires the setting
+#'   of a baseline risk (i.e., \code{br} must be defined). The
+#'   decision threshold values (\code{dt1}, \code{dt2} and \code{dt3}
+#'   must be provided as absolute effects (i.e., number of additional
+#'   or diminished events per N people. By default, it is assumed that
+#'   these threshold values are provided per 1000 people. However,
+#'   this can be changed using the \code{scale} argument).
+#' \item Effect size measure corresponding to a ratio (\code{sm} =
+#'   \code{"OR"}, \code{"RR"}, \code{"HR"} or \code{"GEN_ratio"}) with
+#'   the DI and the ASI being calculated based on relative effect size
+#'   measures: The sampled effect sizes of primary studies are
+#'   directly compared with decision thresholds (\code{dt1},
+#'   \code{dt2}, \code{dt3}) also expressed as relative effect size
+#'   measures. This is the adopted approach when no information is
+#'   provided on the baseline risk (\code{br}).
+#' \item Effect size measure corresponding to a difference (\code{sm}
+#'   = \code{"MD"}, \code{"SMD"}, \code{"RD"} or \code{"GEN_diff"}):
+#'   The samples the effect size measures of primary studies are
+#'   directly compared with decision thresholds (\code{dt1},
+#'   \code{dt2}, \code{dt3}) also expressed as differences.
+#' }
 #'   
-#' Of note, when dealing with relative effect size measures, judgements based
-#' on absolute effects tend to be considered more important for
-#' decision making. The formulae for calculating absolute effects based on
-#' relative effect size measures are those used in the GRADE approach
-#' (see References below).
+#' Of note, when dealing with relative effect size measures,
+#' judgements based on absolute effects tend to be considered more
+#' important for decision making. The formulae for calculating
+#' absolute effects based on relative effect size measures are those
+#' used by the GRADE approach (see References below).
 #' 
-#' Either only argument \code{dt1} or arguments  \code{dt1}, \code{dt2} and
-#' \code{dt3} must be provided.
+#' Ideally, arguments \code{dt1}, \code{dt2} and \code{dt3} should be
+#' provided. If only one decision threshold is available, it is either
+#' possible to provide (i) only \code{dt1}, or (ii) both \code{dt1}
+#' and \code{dt2} (if the threshold distinguishing clinically relevant
+#' benefits vs trivial effects is different from that distinguishing
+#' clinically relevant harms vs trivial effects)
 #' 
-#' Argument \code{sm} must be \code{"OR"} (odds ratio),
-#' \code{"RR"} (risk ratio), \code{"HR"} (hazard ratio),
-#' \code{"MD"} (mean difference), \code{"SMD"} (standardised mean difference),
-#' \code{"RD"} (risk difference), \code{"GEN_diff"} (generic difference), or
-#' \code{"GEN_ratio"} (generic ratio).
+#' Argument \code{sm} must be \code{"OR"} (odds ratio), \code{"RR"}
+#' (risk ratio), \code{"HR"} (hazard ratio), \code{"MD"} (mean
+#' difference), \code{"SMD"} (standardised mean difference),
+#' \code{"RD"} (risk difference), \code{"GEN_diff"} (generic
+#' difference), or \code{"GEN_ratio"} (generic ratio).
 #' 
-#' The baseline risk (optional argument \code{br} which must be a numeric value
-#' between 0 and 1) can be provided when \code{sm = "OR"}, \code{"RR"} or
-#' \code{"HR"}. The baseline risk is also known as assumed comparator risk,
-#' i.e., the risk that the outcome of interest occurs in the comparison
-#' intervention.
+#' The baseline risk (\code{br}) must be a numeric value between 0 and
+#' 1. It can be provided when \code{sm = "OR"}, \code{"RR"} or
+#' '\code{"HR"}. The baseline risk is also known as assumed comparator
+#' risk (i.e., the risk that the outcome of interest occurs in the
+#' comparison intervention).
 #'
 #' @return
-#' An object of class \code{inc}, for which some standard methods are available, see \code{\link{metainc-package}}. Some of the components include:
-#' \item{DI}{A percentage corresponding to the Decision Inconsistency index. The higher/closer to 100\% the value, the higher the inconsistency.}
-#' \item{ASI}{A percentage corresponding to the Across-Studies Inconsistency index. The higher/closer to 100\% the value, the higher the across-studies inconsistency.}
-#' \item{class_distribution}{A data frame containing the proportion of simulations indicating:
-#'     \itemize{
-#'       \item Large positive effects (effect sizes higher than \code{tl}): “large (higher)” row;
-#'       \item Moderate positive effects (efect sizes between \code{tm} and \code{tl}): “moderate (higher)” row;
-#'       \item Small positive effects (effect sizes between \code{ts} and \code{tm}): “small (higher)” row;
-#'       \item Non meaningful effects (effect sizes between \code{-ts} and \code{ts}): “not meaningful” row;
-#'       \item Small negative effects (effect sizes between \code{-ts} and \code{-tm}): “small (lower)” row;
-#'       \item Moderate negative effects (effect sizes between \code{-tm} and \code{-tl}): “moderate (lower)” row;
-#'       \item Large negative effects (effect sizes lower than \code{-tl}): “large (lower)” row.
+#' 
+#' An object of class \code{inc}, for which some standard methods are
+#' available, see \code{\link{metainc-package}}. Some of the
+#' components include:
+#' \item{DI}{A percentage corresponding to the Decision Inconsistency
+#'   index. The higher/closer to 100\% the value, the higher the
+#'   inconsistency.}
+#' \item{ASI}{A percentage corresponding to the Across-Studies
+#'   Inconsistency index. The higher/closer to 100\% the value, the
+#'   higher the across-studies inconsistency.}
+#' 
+#' \item{class_distribution}{A data frame containing the proportion of
+#'   samples indicating (if three decision thresholds had been
+#'   provided):
+#'   \itemize{
+#'     \item Large positive effects (effect sizes higher than
+#'       \code{dt3}): “large (higher)” row;
+#'     \item Moderate positive effects (efect sizes between \code{dt2}
+#'       and \code{dt3}): “moderate (higher)” row;
+#'     \item Small positive effects (effect sizes between \code{dt1}
+#'       and \code{dt2}): “small (higher)” row;
+#'     \item Non meaningful effects (effect sizes between \code{-dt1}
+#'       and \code{dt1}): “not meaningful” row;
+#'     \item Small negative effects (effect sizes between \code{-dt1}
+#'       and \code{-dt2}): “small (lower)” row;
+#'     \item Moderate negative effects (effect sizes between
+#'       \code{-dt2} and \code{-dt3}): “moderate (lower)” row;
+#'     \item Large negative effects (effect sizes lower than
+#'       \code{-dt3}): “large (lower)” row.
 #'     }
 #' }
-#' \item{prop_over_null}{A numeric value indicating the proportion of simulations with a value higher than the value representing no difference between the groups.}
+#' \item{prop_over_null}{A numeric value indicating the proportion of
+#'   samples with a value higher than the value representing no
+#'   difference between the groups.}
 #' 
 #' @author Bernardo Sousa-Pinto \email{bernardo@@med.up.pt},
 #'   Guido Schwarzer \email{guido.schwarzer@@uniklinik-freiburg.de}
 #' 
 #' @references
-#' 
 #' Cohen J. (1998).
 #' \dQuote{Statistical Power Analysis in the Behavioral Sciences},
 #' 2nd edition ed. Hillsdale (NJ): Lawrence Erlbaum Associates, Inc.
@@ -118,15 +167,15 @@
 #' 
 #' data(anticoagulation)
 #' inc_anticoagulation <-
-#'   inc(anticoagulation, dt1 = 20, dt2 = 30, dt3 = 40, br = 0.5, sm = "or",
+#'   inc(anticoagulation, dt1 = 16, dt2 = 31, dt3 = 60, br = 0.5, sm = "OR",
 #'       transf = FALSE)
 #' inc_anticoagulation
 #' 
 #' \dontrun{
 #' # Same result
 #' inc_anticoagulation <-
-#'   inc(log(anticoagulation), dt1 = 20, dt2 = 30, dt3 = 40,
-#'     br = 0.5, sm = "or")
+#'   inc(log(anticoagulation), dt1 = 16, dt2 = 31, dt3 = 60,
+#'     br = 0.5, sm = "OR")
 #' inc_anticoagulation
 #' 
 #' # Example with calculation of the Decision Inconsistency index and the 
@@ -139,25 +188,21 @@
 #' }
 #'
 #' @export inc
-#' 
-#' @importFrom meta gs transf backtransf
-#' @importFrom stats reshape rnorm update
-#' @importFrom utils head
-#' @importFrom confintr ci_cramersv
 
-inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
+inc <- function(x, dt1, dt2 = NULL, dt3 = NULL, sm, br = NULL,
+                utility = NULL, scale = 1000,
                 transf = TRUE, transf.dt = FALSE) {
   
   #
   # (1) Check arguments
   #
   
-  if (inherits(x, "sims")) {
-    simdat <- x$data
+  if (inherits(x, "samples_metainc")) {
+    samdat <- x$data
     sm <- x$sm
   }
   else {
-    simdat <- x
+    samdat <- x
     #
     if (missing(sm))
       stop("Argument 'sm' must be provided.")
@@ -171,12 +216,37 @@ inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
     chklogical(transf)
     #
     if (!transf)
-      simdat <- transf(simdat, sm)
+      samdat <- transf(samdat, sm)
   }
   #
-  only.dt1 <- !missing(dt1) & missing(dt2) & missing(dt3)
-  only.dt12 <- !(missing(dt1) | missing(dt2)) & missing(dt3)
-  avail.dt123 <- !(missing(dt1) | missing(dt2) | missing(dt3))
+  chknumeric(scale, min = 0, zero = TRUE, length = 1)
+  #
+  avail.br <- !is.null(br)
+  if (avail.br && (br <= 0 | br > 1))
+    stop("Baseline risk (argument 'br') must be a value between 0 and 1.")
+  #
+  avail.util <- !is.null(utility)
+  if (avail.util && (utility <= 0 | utility > 1))
+    stop("Utility value (argument 'utility') must be a value between 0 and 1.")
+  #
+  avail.dt1 <- !missing(dt1) && !is.null(dt1)
+  avail.dt2 <- !missing(dt2) && !is.null(dt2)
+  avail.dt3 <- !missing(dt3) && !is.null(dt3)
+  #
+  if (avail.util & avail.br & sm %in% c("OR", "RR", "HR") &
+      !avail.dt1 & !avail.dt2 & !avail.dt3) {
+    dt1 <- scale * 0.0135 / (1 - utility)
+    dt2 <- scale * 0.0321 / (1 - utility)
+    dt3 <- scale * 0.0625 / (1 - utility)
+    #
+    avail.dt1 <- TRUE
+    avail.dt2 <- TRUE
+    avail.dt3 <- TRUE
+  }
+  #
+  only.dt1 <- avail.dt1 & !avail.dt2 & !avail.dt3
+  only.dt12 <- avail.dt1 & avail.dt2 & !avail.dt3
+  avail.dt123 <- avail.dt1 & avail.dt2 & avail.dt3
   #
   if (!only.dt1 & !only.dt12 & !avail.dt123)
     stop("You must provide an input for either (i) argument 'dt1' or ",
@@ -200,12 +270,6 @@ inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
            "must be in increasing order: dt1 < dt2 < dt3")
   }
   #
-  avail.br <- !is.null(br)
-  if (avail.br && (br <= 0 | br > 1))
-    stop("Baseline risk (argument 'br') must be a value between 0 and 1.")
-  #
-  chknumeric(scale, min = 0, zero = TRUE, length = 1)
-  #
   chklogical(transf.dt)
   
   
@@ -228,14 +292,14 @@ inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
             "tend to be considered more important for decision-making"),
             call. = FALSE)
   else if (sm %in% c("OR", "RR", "HR") & avail.br) {
-    simdat <- backtransf(simdat, sm)
+    samdat <- backtransf(samdat, sm)
     #
     if (sm == "OR")
-      simdat <- -scale * (br - ((br * simdat) / (1 - br + (br * simdat))))
+      samdat <- -scale * (br - ((br * samdat) / (1 - br + (br * samdat))))
     else if (sm == "RR")
-      simdat <- scale * (br * simdat - br)
+      samdat <- scale * (br * samdat - br)
     else
-      simdat <- -scale * (br - (1 - (1 - br)^simdat))
+      samdat <- -scale * (br - (1 - (1 - br)^samdat))
   }
   #
   if (only.dt1) {
@@ -265,20 +329,20 @@ inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
   # (3) Calculate DI and ASI
   #
   
-  simdat <- as.data.frame(simdat)
-  N <- ncol(simdat)
-  n.obs <- prod(dim(simdat))
+  samdat <- as.data.frame(samdat)
+  N <- ncol(samdat)
+  n.obs <- prod(dim(samdat))
   #
-  propnull <- sum(simdat > 0) / n.obs
+  propnull <- sum(samdat > 0) / n.obs
   #
   dtcut <- function(x, cutpoints, labels)
     cut(x, c(-Inf, cutpoints, Inf), labels = labels)
   #
-  simdat.dt <-
-    as.data.frame(lapply(simdat, dtcut, cutpoints = cuts, labels = labs))
-  colnames(simdat.dt) <- colnames(simdat)
+  samdat.dt <-
+    as.data.frame(lapply(samdat, dtcut, cutpoints = cuts, labels = labs))
+  colnames(samdat.dt) <- colnames(samdat)
   #
-  tab.dt <- do.call("rbind", lapply(simdat.dt, table))
+  tab.dt <- do.call("rbind", lapply(samdat.dt, table))
   #
   sum0 <- function(x)
     sum(x) == 0
@@ -309,7 +373,7 @@ inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
     }
   }
   #
-  dtVec <- factor(as.vector(unlist(simdat.dt)), levels = labs)
+  dtVec <- factor(as.vector(unlist(samdat.dt)), levels = labs)
   n.obs <- length(dtVec)
   #
   tab.dtVec <- table(dtVec)
@@ -329,11 +393,12 @@ inc <- function(x, dt1, dt2, dt3, sm, br = NULL, scale = 1000,
   
   res <- list(ASI = ds, DI = di, class_distribution = cl,
               prop_over_null = propnull,
-              stud_class = simdat.dt,
+              stud_class = samdat.dt,
               dt1 = dt1,
               dt2 = if (only.dt12 | avail.dt123) dt2 else NA,
               dt3 = if (avail.dt123) dt3 else NA,
               br = if (avail.br) br else NA,
+              utility = if (avail.util) utility else NA,
               scale = scale, sm = sm,
               transf = transf, transf.dt = transf.dt,
               x = x,
@@ -361,17 +426,39 @@ print.inc <- function (x, digits = 1, ...) {
   cat(paste0("Across-Studies Inconsistency (ASI): ",
              formatN(round(x$ASI, digits), digits), "%\n\n"))
   #
-  cat(paste("Proportion of simulations by classification in relation to",
-            "the decision threshold:\n"))
+  cat("Proportion of samples by classification in relation to ",
+      "the decision threshold", if (!is.na(x$dt2)) "s", ":\n",
+      sep = "")
   props <- x$class_distribution
   props$proportion <- paste0(formatN(round(100 * props$proportion, digits),
                                      digits), "%")
   props$n <- props$d <- NULL
   prmatrix(props, quote = FALSE, right = TRUE)
   #
-  cat(paste0("\nProportion of simulations larger than null effect: ",
+  cat(paste0("\nProportion of samples larger than null effect: ",
              formatN(round(100 * x$prop_over_null, digits), digits),
              "%", "\n"))
+  #
+  cat("\nSettings:\n")
+  #
+  if (!is.na(x$br))
+    cat("- baseline risk = ", x$br, "\n", sep = "")
+  #
+  if (!is.na(x$utility))
+    cat("- utility = ", x$utility, "\n", sep = "")
+  #
+  cat("- decision threshold", if (!is.na(x$dt2)) "s", ": ", sep = "")
+  cat("dt1 =", x$dt1)
+  if (!is.na(x$dt2))
+    cat(", dt2 =", x$dt2)
+  if (!is.na(x$dt3))
+    cat(", dt3 =", x$dt3)
+  #
+  if (!is.na(x$br))
+    cat(if (!is.na(x$dt2)) "\n  (" else " ",
+        "events per ", x$scale, " observations",
+        if (!is.na(x$dt2)) ")", "\n",
+        sep = "")
   #
   invisible(NULL)
 }
@@ -402,23 +489,9 @@ summary.inc <- function(object, ...) {
 print.summary.inc <- function (x, digits = 1, ...) {
   chknumeric(digits, min = 0, length = 1)
   #
-  cat(paste0("Decision Inconsistency index (DI):  ",
-             formatN(round(x$DI, digits), digits), "%\n"))
+  class(x) <- "inc"
   #
-  cat(paste0("Across-Studies Inconsistency (ASI): ",
-             formatN(round(x$ASI, digits), digits), "%\n\n"))
-  #
-  cat(paste("Proportion of simulations by classification in relation to",
-            "the decision threshold:\n"))
-  props <- x$class_distribution
-  props$proportion <- paste0(formatN(round(100 * props$proportion, digits),
-                                     digits), "%")
-  props$n <- props$d <- NULL
-  prmatrix(props, quote = FALSE, right = TRUE)
-  #
-  cat(paste0("\nProportion of simulations larger than null effect: ",
-             formatN(round(100 * x$prop_over_null, digits), digits),
-             "%", "\n"))
+  print(x, digits = digits, ...)
   #
   invisible(NULL)
 }

@@ -2,6 +2,7 @@
 *.bak
 symbols.rds
 .Rproj.user
+metainc.Rproj
 .Rhistory
 .RData
 .Ruserdata

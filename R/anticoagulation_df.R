@@ -1,7 +1,11 @@
-#' Data set with data from Akl et al. (2017)
+#' Meta-analysis on the association between parenteral anticoagulation
+#' and mortality in patients with cancer
 #' 
 #' @description
-#' Data set with data from Akl et al. (2017)
+#' Data set from meta-analysis on the association between parenteral
+#' anticoagulation and mortality in patients with cancer (Akl et al.,
+#' 2017). For each primary study, results are expressed as log odds
+#' ratio.
 #' 
 #' @name anticoagulation_df
 #' @aliases anticoagulation_df
@@ -10,13 +14,17 @@
 #' 
 #' @details
 #' 
-#' The \code{anticoagulation_df} dataframe displays, for each primary study of
+#' The \code{anticoagulation_df} data frame displays, for each primary study of
 #' the meta-analysis from Akl et al. (2017):
-#' (i) the number of events and the total number of participants for each
-#' group,
-#' (ii) its effect size measure [ln OR] (\code{yi} variable),
-#' (iii) the respective variance (\code{vi} variable),
-#' and (iv) the risk of bias (\code{RoB} variable).
+#' \enumerate{
+#' 
+#' \item number of events (variables \code{rA} and \code{rB}) and
+#'   total number of participants (\code{nA} and \code{nB}) for each
+#'   group,
+#' \item effect sizes [ln OR] (\code{yi}),
+#' \item respective variance (\code{vi}),
+#' \item risk of bias assessment (\code{RoB}).
+#' }
 #' 
 #' @source
 #' Akl, E. A., Kahale, L. A., Hakoum, M. B., Matar, C. F., Sperati, F.,
@@ -30,22 +38,21 @@
 #' @seealso \code{\link{inc}}
 #'
 #' @examples
-#' data("anticoagulation_df")
+#' data(anticoagulation_df)
 #' m1 <- meta::metagen(yi, sqrt(vi), sm = "OR", data = anticoagulation_df,
 #'   studlab = LETTERS[1:18])
-#' set.seed(1090) # Make simulated effect sizes reproducible
-#' sims1 <- getsims(m1)
-#' sims1
+#' set.seed(1090) # Make sampled effect sizes reproducible
+#' sample1 <- getsamples(m1)
+#' dis1 <- inc(sample1, dt1 = 16, dt2 = 31, dt3 = 60, br = 0.504, sm = "OR")
 #' 
 #' \dontrun{
-#' # Same simulated effect sizes using R package metafor (must be installed)
+#' # Same sampled effect sizes using R package metafor (must be installed)
+#' m2 <- metafor::rma(anticoagulation_df, measure = "OR", slab = LETTERS[1:18])
+#' set.seed(1090) # Make sampled effect sizes reproducible
+#' sample2 <- getsamples(m2)
+#' dis2 <- inc(sample2, dt1 = 16, dt2 = 31, dt3 = 60, br = 0.504, sm = "OR")
 #' 
-#' m1f <- metafor::rma(anticoagulation_df, measure = "OR", slab = LETTERS[1:18])
-#' set.seed(1090) # Make simulated effect sizes reproducible
-#' sims2 <- getsims(m1f)
-#' sims2
-#' 
-#' all.equal(sims1, sims2) # Only difference: package name
+#' all.equal(sample1, sample2) # Only difference: package name
 #' }
 
 NULL

@@ -2,49 +2,56 @@
 #'
 #' @description
 #' Sensitivity analysis on the Decision Inconsistency index and the
-#' Across-Studies Inconsistency index based on a range of baseline risks.
-#' It is applicable only to meta-analyses with binary outcome data (effect size
-#' measures expressed as risk ratios, odds ratios or hazard ratios).
+#' Across-Studies Inconsistency index based on a range of baseline
+#' risks. It is applicable only to meta-analyses with binary outcome
+#' data (effect size measures expressed as risk ratios, odds ratios or
+#' hazard ratios).
 #'
-#' @param x An R object of class \code{sims} or a matrix containing the 
-#'   simulated effect sizes of primary studies. Note, transformed effect
-#'   sizes must be provided, for example, log odds ratios instead of odds
-#'   ratios.
+#' @param x An R object of class \code{samples_metainc} or a matrix
+#'   containing sampled effect sizes of primary studies. Note, log
+#'   transformed effect sizes must be provided (e.g., log odds ratios
+#'   instead of odds ratios).
 #' @param br1 Smallest baseline risk considered.
 #' @param br2 Largest baseline risk considered.
-#' @param dt1 A single numeric defining the decision threshold to distinguish
-#'   meaningful from trivial effects.
+#' @param dt1 A single numeric defining the decision threshold to
+#'   distinguish (i) meaningful from trivial effects, if arguments
+#'   \code{dt2} and \code{dt3} are not provided, or (ii) small from
+#'   trivial effects if arguments \code{dt2} and \code{dt3} are
+#'   provided.
+#' @param dt2 A single numeric defining the decision threshold to
+#'   distinguish moderate from small effects provided.
+#' @param dt3 A single numeric defining the decision threshold to
+#'   distinguish large from moderate effects.
 #' @param sm A character string indicating the summary measure used in
-#'   primary studies (either \code{sm = "OR"}, \code{sm = "RR"} or 
+#'   primary studies (either \code{sm = "OR"}, \code{sm = "RR"} or
 #'   \code{sm = "HR"}).
 #' @param by Increment of the sequence from \code{br1} to \code{br2}.
-#' @param scale The number of people per which absolute decision thresholds are
-#'  provided (default: 1000, i.e., absolute decision threshold values are
-#'  defined per 1000 people).
-#' @param ylim1 The y limits (min, max) of the plot showing the Decision
-#'   Inconsistency index.
-#' @param ylim2 The y limits (min, max) of the plot showing the Across-Studies
-#'   Inconsistency index.
+#' @param scale The number of people per which absolute decision
+#'   thresholds are provided (default: 1000, i.e., absolute decision
+#'   threshold values are defined per 1000 people).
+#' @param ylim1 The y limits (min, max) of the plot showing the
+#'   Decision Inconsistency index.
+#' @param ylim2 The y limits (min, max) of the plot showing the
+#'   Across-Studies Inconsistency index.
 #' @param ylab1 A label for the y-axis (Decision Inconsistency index).
-#' @param ylab2 A label for the y-axis (Across-Studies Inconsistency index).
+#' @param ylab2 A label for the y-axis (Across-Studies Inconsistency
+#'   index).
 #' @param \dots Additional graphical arguments (ignored).
 #'
 #' @details
-#' The \code{\link{inc}} function computes the Decision Inconsistency index
-#' (DI) and the Across-Studies Inconsistency index (ASI) for a single
-#' baseline risk. This function allows for performing sensitivity analysis
-#' according to the baseline risk. It can only be applied for meta-analyses
-#' with binary outcome data (effect size measures expressed as risk ratios,
-#' odds ratios or hazard ratios), with the DI and the ASI being calculated
-#' based on absolute effects. As a result, the decision threshold value
-#' (\code{t}) must be provided as an absolute effect (i.e., the minimum number
-#' of additional or diminished events that should occur for the effect to be
-#' considered appreciable / important instead of trivial). By default, it is
-#' assumed that this threshold value is provided per 1000 people (argument
-#' \code{scale = 1000}).
+#' The \code{\link{inc}} function computes the Decision Inconsistency
+#' index (DI) and the Across-Studies Inconsistency index (ASI) across
+#' a range of baseline risks. It can only be applied for meta-analyses
+#' with binary outcome data (effect size measures expressed as
+#' (log-)risk ratios, odds ratios or hazard ratios), with the DI and
+#' the ASI being calculated based on absolute effects. As a result,
+#' the decision threshold values (\code{dt1}, \code{dt2}, \code{dt3})
+#' must be provided as absolute effects. By default, it is assumed
+#' that threshold values are provided as numbers of events per 1000
+#' people (\code{scale = 1000}).
 #'
 #' @return
-#' A dataframe containing
+#' A data frame containing
 #' \item{br}{Baseline risk}
 #' \item{ASI}{Decision Inconsistency index at baseline risk}
 #' \item{DI}{Across-Studies Inconsistency index at Baseline risk}
@@ -70,22 +77,23 @@
 #' dis <- sens_br(log(anticoagulation),  br1 = 0.3, br2 = 0.7, dt1 = 20,
 #'   sm = "OR", by = 0.1)
 #' dis
-#' plot(dis, ylim1 = c(50, 70), ylim2 = c(20, 30))
+#' plot(dis, ylim1 = c(0, 100), ylim2 = c(0, 50))
 #'
 #' @export sens_br
 
-sens_br <- function(x, br1, br2, dt1, sm, by = 0.01, scale = 1000) {
+sens_br <- function(x, br1, br2, dt1, dt2 = NULL, dt3 = NULL,
+                    sm, by = 0.01, scale = 1000) {
   
   #
   # (1) Check arguments
   #
   
-  if (inherits(x, "sims")) {
-    simdat <- x$data
+  if (inherits(x, "samples_metainc")) {
+    samdat <- x$data
     sm <- x$sm
   }
   else {
-    simdat <- x
+    samdat <- x
     #
     if (missing(sm))
       stop("Argument 'sm' must be provided.")
@@ -98,6 +106,8 @@ sens_br <- function(x, br1, br2, dt1, sm, by = 0.01, scale = 1000) {
   }
   #
   chknumeric(dt1, length = 1)
+  chknumeric(dt2, length = 1)
+  chknumeric(dt3, length = 1)
   #
   chknumeric(br1, min = 0, length = 1)
   chknumeric(br2, min = 0, length = 1)
@@ -120,7 +130,8 @@ sens_br <- function(x, br1, br2, dt1, sm, by = 0.01, scale = 1000) {
   classif <- data.frame("higher" = c(), "lower" = c(), "trivial" = c())
   #
   for (i in seq_along(seq_br)) {
-    inc.i <- inc(simdat, dt1 = dt1, sm = sm, br = seq_br[i], scale = scale)
+    inc.i <- inc(samdat, dt1 = dt1, dt2 = dt2, dt3 = dt3,
+                 sm = sm, br = seq_br[i], scale = scale)
     #
     asi[i] <- inc.i$ASI
     di[i] <- inc.i$DI
@@ -132,6 +143,8 @@ sens_br <- function(x, br1, br2, dt1, sm, by = 0.01, scale = 1000) {
   attr(res, "br1") <- br1
   attr(res, "br2") <- br2
   attr(res, "dt1") <- dt1
+  attr(res, "dt2") <- dt2
+  attr(res, "dt3") <- dt3
   attr(res, "sm") <- sm
   attr(res, "by") <- by
   attr(res, "scale") <- scale
@@ -167,7 +180,7 @@ plot.sens_br <- function(x, ylim1 = c(0, 100), ylim2 = c(0, 100),
   title("Across-Studies Inconsistency index (ASI)")
   if (FALSE) {
     plot(x$br, 1 - classif[, 1], type = "l", ylim = c(0, 1),
-         xlab = "Baseline risk", ylab = "Proportion of simulations")
+         xlab = "Baseline risk", ylab = "Proportion of samples")
     #
     polygon(c(x$br, rev(x$br)), c(x$br * 0, rev(classif[, 2])),
             col = "#6BD7AF", lty = 0)
@@ -178,7 +191,7 @@ plot.sens_br <- function(x, ylim1 = c(0, 100), ylim2 = c(0, 100),
     lines(x$br, 1 - classif[, 1], ylim=c(0, 1))
     lines(x$br, classif[, 2], ylim = c(0, 1))
     mtext("red: higher; grey: trivial; green: lower", side = 3, adj = 1)
-    title(paste("Proportion of simulations higher, lower and",
+    title(paste("Proportion of samples higher, lower and",
                 "within the decision threshold values"))
   }
   #

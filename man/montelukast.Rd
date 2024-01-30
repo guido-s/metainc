@@ -3,9 +3,9 @@
 \docType{data}
 \name{montelukast}
 \alias{montelukast}
-\title{Simulated effect sizes from Krishnamoorthy et al. (2020)}
+\title{Sampled effect sizes (mean differences) from Krishnamoorthy et al. (2020)}
 \format{
-A matrix with 5000 simulated mean differences (rows) for 9 studies
+A matrix with 5000 sampled mean differences (rows) for 9 studies
 (columns) following a Bayesian meta-analysis.
 }
 \source{
@@ -16,7 +16,8 @@ a systematic review and meta-analysis.}
 \bold{80}, 1381--1851.
 }
 \description{
-Matrix with simulated effect sizes from Krishnamoorthy et al. (2020).
+Matrix with sampled effect sizes (mean differences) from a
+meta-analysis by Krishnamoorthy et al. (2020).
 }
 \details{
 The \code{montelukast} data is from Krishnamoorthy et al. (2020) (Figure 7)
@@ -25,7 +26,7 @@ to a different primary study.
 }
 \examples{
 data(montelukast)
-inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "md")
+inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "MD")
 }
 \seealso{
 \code{\link{inc}}

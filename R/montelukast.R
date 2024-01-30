@@ -1,14 +1,15 @@
-#' Simulated effect sizes from Krishnamoorthy et al. (2020)
+#' Sampled effect sizes (mean differences) from Krishnamoorthy et al. (2020)
 #' 
 #' @description
-#' Matrix with simulated effect sizes from Krishnamoorthy et al. (2020).
+#' Matrix with sampled effect sizes (mean differences) from a
+#' meta-analysis by Krishnamoorthy et al. (2020).
 #' 
 #' @name montelukast
 #' @aliases montelukast
 #' 
 #' @docType data
 #' 
-#' @format A matrix with 5000 simulated mean differences (rows) for 9 studies
+#' @format A matrix with 5000 sampled mean differences (rows) for 9 studies
 #' (columns) following a Bayesian meta-analysis.
 #' 
 #' @details
@@ -29,6 +30,6 @@
 #'
 #' @examples
 #' data(montelukast)
-#' inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "md")
+#' inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "MD")
 
 NULL

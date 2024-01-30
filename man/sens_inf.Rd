@@ -24,30 +24,35 @@ sens_inf(x)
 }
 \value{
 The \code{sens_inf} function generates:
-\item{di_stud}{A dataframe displaying the Decision Inconsistency Index for each individual primary study.}
-\item{di_asi_sens}{A dataframe displaying the results of the leave-one-out sensitivity analysis for the Decision Inconsistency index and the Across-Studies Inconsistency index.}
+\item{di_stud}{A dataframe displaying the Decision Inconsistency
+  Index for each individual primary study.}
+\item{di_asi_sens}{A dataframe displaying the results of the
+  leave-one-out sensitivity analysis for the Decision Inconsistency
+  index and the Across-Studies Inconsistency index.}
 }
 \description{
-Computation of the Decision Inconsistency index for each individual primary study and leave-one-out sensitivity analysis for the Decision Inconsistency index and the Across-Studies Inconsistency index.
+Computation of the Decision Inconsistency index for each individual
+primary study and leave-one-out sensitivity analysis for the
+Decision Inconsistency index and the Across-Studies Inconsistency
+index.
 }
 \details{
-The \code{sens_inf} function (i) computes the Decision Inconsistency index
-(DI) for each individual primary study and (ii) performs leave-one-out
-sensitivity analysis for the DI and for the Across-Studies Inconsistency
-index. This function takes, as its single argument, an object of the class
-\code{inc}.
+The \code{sens_inf} function (i) computes the Decision
+Inconsistency index (DI) for each individual primary study and (ii)
+performs leave-one-out sensitivity analysis for the DI and for the
+Across-Studies Inconsistency index. This function takes, as its
+single argument, an object of the class \code{inc}.
 }
 \examples{
 data(anticoagulation)
 inc_anticoagulation <-
-  inc(log(anticoagulation), dt1 = 20, dt2 = 30, dt3 = 40,
-    br = 0.5, sm = "or")
+  inc(log(anticoagulation), dt1 = 16, dt2 = 31, dt3 = 60,
+    br = 0.5, sm = "OR")
 sens <- sens_inf(inc_anticoagulation)
 sens
 
 }
 \author{
-Bernardo Sousa-Pinto \email{bernardo@med.up.pt},
-  Guido Schwarzer \email{guido.schwarzer@uniklinik-freiburg.de}
+Bernardo Sousa-Pinto \email{bernardo@med.up.pt}
 }
 \keyword{print}
