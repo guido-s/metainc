@@ -1,4 +1,5 @@
-#' Sensitivity analysis (based on decision thresholds) for the Decision Inconsistency index and Across-Studies Inconsistency index
+#' Sensitivity analysis (based on decision thresholds) for the Decision
+#' Inconsistency and Across-Studies Inconsistency index
 #'
 #' @description
 #' Sensitivity analysis on the Decision Inconsistency index and the
@@ -7,7 +8,7 @@
 #' meta-analyses with binary outcome data (effect size measures expressed as 
 #' risk ratios, odds ratios or hazard ratios).
 #'
-#' @param x An R object of class \code{samples_metainc} or a matrix
+#' @param x An R object created with \code{\link{getsamples}} or a matrix
 #'   containing the samples of the effect sizes of primary
 #'   studies. Note that log-transformed effect sizes must be provided
 #'   (e.g., log odds ratios instead of odds ratios).

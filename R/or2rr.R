@@ -5,19 +5,18 @@
 #'
 #' @param or Odds ratio(s).
 #' @param br Baseline risk (also known as assumed comparator risk),
-#' i.e., risk that the outcome of interest would occur in the comparator 
-#' intervention. It must be expressed as a value between 0 and 1.
+#'   i.e., risk that the outcome of interest would occur in the comparator 
+#'   intervention. It must be expressed as a value between 0 and 1.
 #'
 #' @details
-#' 
 #' This function converts odds ratios (OR) into risk ratios (RR) using the
 #' formula available in Schunemann et al. (2019), Chapter 15:
 #' 
-#' RR = OR / (1 - BR x (1 - OR)),
+#' RR = OR / (1 - br x (1 - OR)),
 #' 
-#' with BR corresponding to the baseline risk (the assumed comparator risk;
+#' with br corresponding to the baseline risk (the assumed comparator risk;
 #' i.e., the risk that the outcome of interest would occur in the comparison
-#'intervention).
+#' intervention).
 #'
 #' @return
 #' A vector or matrix with risk ratios.

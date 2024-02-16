@@ -1,20 +1,19 @@
 #' Decision Inconsistency and Across-Studies Inconsistency index
 #'
 #' @description
-#' 
 #' Calculate Decision Inconsistency (DI) and Across-Studies Inconsistency (ASI)
-#' index
+#' index.
 #'
-#' @param x An R object of class \code{samples_metainc} or a matrix
+#' @param x An R object created with \code{\link{getsamples}} or a matrix
 #'   containing the sampled effect sizes of primary studies.
 #' @param dt1 A single numeric defining the decision threshold to
 #'   distinguish (i) meaningful from trivial effects, if arguments
-#'   \code{dt2} and \code{dt3} are not provided, (ii) negative/harmful
+#'   \code{dt2} and \code{dt3} are not provided, (ii) negative / harmful
 #'   from trivial effects, if only argument \code{dt2} is also
 #'   provided, or (iii) small from trivial effects if arguments
 #'   \code{dt2} and \code{dt3} are provided.
 #' @param dt2 A single numeric defining the decision threshold to
-#'   distinguish (i) positive/beneficial from trivial effects if
+#'   distinguish (i) positive / beneficial from trivial effects if
 #'   argument \code{dt3} is not provided, or (ii) moderate from small
 #'   effects if argument \code{dt3} is provided.
 #' @param dt3 A single numeric defining the decision threshold to
@@ -26,18 +25,18 @@
 #' @param utility Utility value.
 #' @param scale The number of people per which absolute decision
 #'   thresholds are provided (default: 1000, i.e., absolute decision
-#'   threshold values are defined per 1000 people). Only considered if
+#'   threshold values are defined per 1000 persons). Only considered if
 #'   \code{br} is not missing.
 #' @param transf A logical indicating whether the values of an effect
 #'   size matrix (argument \code{x}) are to be transformed. By default
-#'   \code{transf = TRUE} (e.g., it is assumed that the matrix
-#'   contains log odds ratios instead of odds ratios).
+#'   \code{transf = TRUE}, it is assumed that the matrix
+#'   contains, e.g., log odds ratios instead of odds ratios.
 #' @param transf.dt A logical indicating whether relative decision
 #'   thresholds are transformed or on the original scale. If
 #'   \code{transf.dt = FALSE} (default), relative decision thresholds
-#'   are expected to be in the natural scale (e.g., odds ratios
-#'   instead of log odds ratios for \code{sm = "OR"}). Note, however,
-#'   that the GRADE working group recommends using absolute instead of
+#'   are expected to be on the natural scale (e.g., odds ratios
+#'   instead of log odds ratios for \code{sm = "OR"}). Note, the GRADE working
+#'   group recommends to use absolute instead of
 #'   relative decision thresholds.
 #' @param digits Minimal number of significant digits to print
 #'   percentages, see \code{print.default}.
@@ -46,13 +45,13 @@
 #'
 #' @details
 #' This function calculates the Decision Inconsistency index (DI) and
-#' the Across-Studies Inconsistency index (ASI) for meta-analyses. The
+#' the Across-Studies Inconsistency index (ASI) for a meta-analysis. The
 #' following possibilities are considered depending on the type of
 #' effect size measures:
 #' \itemize{
 #' \item Effect size measure corresponding to a ratio (\code{sm =
 #'   "OR"}, \code{"RR"} or \code{"HR"}) with the DI and the ASI being
-#'   calculated based on absolute effects: This requires the setting
+#'   calculated based on absolute effects: This requires the specification
 #'   of a baseline risk (i.e., \code{br} must be defined). The
 #'   decision threshold values (\code{dt1}, \code{dt2} and \code{dt3}
 #'   must be provided as absolute effects (i.e., number of additional
@@ -64,28 +63,28 @@
 #'   the DI and the ASI being calculated based on relative effect size
 #'   measures: The sampled effect sizes of primary studies are
 #'   directly compared with decision thresholds (\code{dt1},
-#'   \code{dt2}, \code{dt3}) also expressed as relative effect size
-#'   measures. This is the adopted approach when no information is
+#'   \code{dt2}, \code{dt3}) also expressed as relative effect sizes.
+#'   This is the adopted approach when no information is
 #'   provided on the baseline risk (\code{br}).
 #' \item Effect size measure corresponding to a difference (\code{sm}
 #'   = \code{"MD"}, \code{"SMD"}, \code{"RD"} or \code{"GEN_diff"}):
-#'   The samples the effect size measures of primary studies are
-#'   directly compared with decision thresholds (\code{dt1},
-#'   \code{dt2}, \code{dt3}) also expressed as differences.
+#'   The sampled effect sizes of primary studies are directly compared with
+#'   decision thresholds (\code{dt1}, \code{dt2}, \code{dt3}) also expressed
+#'   as differences.
 #' }
 #'   
 #' Of note, when dealing with relative effect size measures,
 #' judgements based on absolute effects tend to be considered more
 #' important for decision making. The formulae for calculating
 #' absolute effects based on relative effect size measures are those
-#' used by the GRADE approach (see References below).
+#' used by the GRADE approach (see references below).
 #' 
 #' Ideally, arguments \code{dt1}, \code{dt2} and \code{dt3} should be
 #' provided. If only one decision threshold is available, it is either
 #' possible to provide (i) only \code{dt1}, or (ii) both \code{dt1}
 #' and \code{dt2} (if the threshold distinguishing clinically relevant
 #' benefits vs trivial effects is different from that distinguishing
-#' clinically relevant harms vs trivial effects)
+#' clinically relevant harms vs trivial effects).
 #' 
 #' Argument \code{sm} must be \code{"OR"} (odds ratio), \code{"RR"}
 #' (risk ratio), \code{"HR"} (hazard ratio), \code{"MD"} (mean
@@ -100,35 +99,33 @@
 #' comparison intervention).
 #'
 #' @return
-#' 
 #' An object of class \code{inc}, for which some standard methods are
 #' available, see \code{\link{metainc-package}}. Some of the
 #' components include:
 #' \item{DI}{A percentage corresponding to the Decision Inconsistency
-#'   index. The higher/closer to 100\% the value, the higher the
+#'   index. The higher / closer to 100\% the value, the higher the
 #'   inconsistency.}
 #' \item{ASI}{A percentage corresponding to the Across-Studies
-#'   Inconsistency index. The higher/closer to 100\% the value, the
+#'   Inconsistency index. The higher / closer to 100\% the value, the
 #'   higher the across-studies inconsistency.}
-#' 
 #' \item{class_distribution}{A data frame containing the proportion of
 #'   samples indicating (if three decision thresholds had been
 #'   provided):
 #'   \itemize{
 #'     \item Large positive effects (effect sizes higher than
-#'       \code{dt3}): “large (higher)” row;
+#'       \code{dt3}): "large (higher)" row;
 #'     \item Moderate positive effects (efect sizes between \code{dt2}
-#'       and \code{dt3}): “moderate (higher)” row;
+#'       and \code{dt3}): "moderate (higher)" row;
 #'     \item Small positive effects (effect sizes between \code{dt1}
-#'       and \code{dt2}): “small (higher)” row;
+#'       and \code{dt2}): "small (higher)" row;
 #'     \item Non meaningful effects (effect sizes between \code{-dt1}
-#'       and \code{dt1}): “not meaningful” row;
+#'       and \code{dt1}): "not meaningful" row;
 #'     \item Small negative effects (effect sizes between \code{-dt1}
-#'       and \code{-dt2}): “small (lower)” row;
+#'       and \code{-dt2}): "small (lower)" row;
 #'     \item Moderate negative effects (effect sizes between
-#'       \code{-dt2} and \code{-dt3}): “moderate (lower)” row;
+#'       \code{-dt2} and \code{-dt3}): "moderate (lower)" row;
 #'     \item Large negative effects (effect sizes lower than
-#'       \code{-dt3}): “large (lower)” row.
+#'       \code{-dt3}): "large (lower)" row.
 #'     }
 #' }
 #' \item{prop_over_null}{A numeric value indicating the proportion of
@@ -163,7 +160,7 @@
 #' @examples
 #' # Example with effect sizes measures expressed as ratios and with
 #' # calculation of the Decision Inconsistency index and the Across-Studies
-#' # Inconsistency index being calculated based on absolute effects:
+#' # Inconsistency index based on absolute effects:
 #' 
 #' data(anticoagulation)
 #' inc_anticoagulation <-

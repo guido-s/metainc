@@ -1,8 +1,8 @@
-#' Extract samples of effect size measures from primary studies
+#' Generate or extract samples of effect sizes from primary studies
 #'
 #' @description
-#' Obtains a matrix containing sampled effect sizes from the the
-#' primary studies.
+#' Obtains a matrix containing sampled effect sizes from primary studies
+#' of a meta-analysis.
 #'
 #' @param obj Meta-analysis object (see Details).
 #' @param param Parameters for effect sizes (see Details).
@@ -29,15 +29,15 @@
 #' \bold{R2OpenBUGS}, \code{jags} from \bold{R2jags},
 #' \code{jags.samples} from \bold{rjags}, \code{brm} from \bold{brms},
 #' \code{rma} from \bold{metafor}, or \code{metabin}, \code{metacont}
-#' or\code{metagen} from \bold{meta}.
+#' or \code{metagen} from \bold{meta}.
 #' 
 #' Argument \code{param} corresponds to the effect size measures of
-#' the primary studies (R2OpenBUGS, R2jags, rjags packages) or to the
-#' name of the column that contains the unique identification of each
-#' primary study in the data frame containing the results of primary
-#' studies used for meta-analysis (\bold{brms} package). This argument
-#' is not required if meta-analysis has been performed using
-#' \bold{meta} or \bold{metafor} package.
+#' the primary studies (for R packages \bold{R2OpenBUGS}, \bold{R2jags},
+#' and \bold{rjags}) or to the name of the column that contains the unique
+#' identification of each primary study in the data frame containing the
+#' results of primary studies used for meta-analysis (\bold{brms} package).
+#' This argument is not required if the meta-analysis has been performed using
+#' R package \bold{meta} or \bold{metafor}.
 #' 
 #' Information of the R package used to conduct the meta-analysis can
 #' be provided in argument \code{package}. The value of \code{package}
@@ -53,12 +53,11 @@
 #' either "OR" (odds ratio), "RR" (risk ratio), "HR" (hazard ratio),
 #' "RD" (risk difference), "MD" (mean difference), "SMD" (standardised
 #' mean difference), "GEN_ratio" (generic ratio) or "GEN_diff"
-#' (generic difference). Does not need to be provided if meta-analysis
+#' (generic difference). Does not need to be provided if the meta-analysis
 #' was performed with \bold{meta} or \bold{metafor}.
 #' 
-#'
 #' @return
-#' A matrix containing sampled effect sizes for primary study.
+#' A matrix containing sampled effect sizes (rows) for primary study (columns).
 #'
 #' @author Bernardo Sousa-Pinto \email{bernardo@@med.up.pt}
 #' 
@@ -79,9 +78,9 @@
 #' sample
 #' }
 #' 
-#' # Example with a dataset containing variables indicating the effect sizes
-#' # for each primary study (yi) and the respective variances (vi), and for
-#' # which frequentist meta-analysis using the meta package is applied.
+#' # Example using a dataset providing effect sizes for primary studies (yi)
+#' # and respective variances (vi). A frequentist meta-analysis using the meta
+#' # package is conducted.
 #' 
 #' data("anticoagulation_df")
 #' m1 <- meta::metagen(yi, sqrt(vi), sm = "OR", data = anticoagulation_df,
@@ -104,7 +103,7 @@
 #' @export getsamples
 
 getsamples <- function(obj, param = NULL, package = NULL, n.samples = 10000,
-                    sm, transf = TRUE) {
+                       sm, transf = TRUE) {
   
   #
   # (1) Check arguments

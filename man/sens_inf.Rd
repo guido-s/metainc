@@ -5,7 +5,8 @@
 \alias{print.sens_inf}
 \alias{summary.sens_inf}
 \alias{print.summary.sens_inf}
-\title{Decision Inconsistency index for individual studies and leave-one out sensitivity analysis for inconsistency measures}
+\title{Decision Inconsistency index for individual studies and leave-one out
+sensitivity analysis for inconsistency measures}
 \usage{
 sens_inf(x)
 
@@ -16,17 +17,17 @@ sens_inf(x)
 \method{print}{summary.sens_inf}(x, ...)
 }
 \arguments{
-\item{x}{An R object of class \code{inc}.}
+\item{x}{An R object of class \code{\link{inc}}.}
 
 \item{\dots}{Additional arguments (ignored).}
 
 \item{object}{An R object of class \code{sens_inf}.}
 }
 \value{
-The \code{sens_inf} function generates:
-\item{di_stud}{A dataframe displaying the Decision Inconsistency
-  Index for each individual primary study.}
-\item{di_asi_sens}{A dataframe displaying the results of the
+This function generates:
+\item{di_stud}{A data frame containing the Decision Inconsistency
+  index for each individual primary study.}
+\item{di_asi_sens}{A data frame containing results of a
   leave-one-out sensitivity analysis for the Decision Inconsistency
   index and the Across-Studies Inconsistency index.}
 }
@@ -39,9 +40,9 @@ index.
 \details{
 The \code{sens_inf} function (i) computes the Decision
 Inconsistency index (DI) for each individual primary study and (ii)
-performs leave-one-out sensitivity analysis for the DI and for the
+performs a leave-one-out sensitivity analysis for the DI and for the
 Across-Studies Inconsistency index. This function takes, as its
-single argument, an object of the class \code{inc}.
+single argument, an object of the class \code{\link{inc}}.
 }
 \examples{
 data(anticoagulation)

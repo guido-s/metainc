@@ -3,7 +3,8 @@
 \docType{data}
 \name{anticoagulation}
 \alias{anticoagulation}
-\title{Samples of effect sizes (odds ratio)}
+\title{Sampled odds ratios from meta-analysis on the association between
+parenteral anticoagulation and mortality in patients with cancer}
 \format{
 A matrix with 5000 sampled odds ratios (rows) for 18 studies
 (columns) following a Bayesian meta-analysis.
@@ -16,8 +17,9 @@ Barba, M., et al. (2017).
 \bold{9}: CD006652.
 }
 \description{
-Matrix with samples of effect sizes from a meta-analysis by Akl et
-al. (2017).
+Matrix with sampled odds ratios from meta-analysis on the association
+between parenteral anticoagulation and mortality in patients with cancer
+(Akl et al., 2017).
 }
 \details{
 The \code{anticoagulation} data is from Akl et al. (2017) and
@@ -41,6 +43,6 @@ dis2 <- inc(log(anticoagulation), br = 0.504, dt1 = 16, sm = "OR")
 dis2
 }
 \seealso{
-\code{\link{inc}}
+\code{\link{inc}}, \code{\link{anticoagulation_df}}
 }
 \keyword{datasets}

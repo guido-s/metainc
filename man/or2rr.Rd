@@ -23,9 +23,9 @@ Calculate risk ratios from odds ratios and baseline risk.
 This function converts odds ratios (OR) into risk ratios (RR) using the
 formula available in Schunemann et al. (2019), Chapter 15:
 
-RR = OR / (1 - BR x (1 - OR)),
+RR = OR / (1 - br x (1 - OR)),
 
-with BR corresponding to the baseline risk (the assumed comparator risk;
+with br corresponding to the baseline risk (the assumed comparator risk;
 i.e., the risk that the outcome of interest would occur in the comparison
 intervention).
 }

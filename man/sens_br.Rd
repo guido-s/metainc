@@ -3,7 +3,8 @@
 \name{sens_br}
 \alias{sens_br}
 \alias{plot.sens_br}
-\title{Sensitivity analysis (based on the baseline risk) for the Decision Inconsistency index and Across-Studies Inconsistency index}
+\title{Sensitivity analysis (based on the baseline risk) for the Decision
+Inconsistency and Across-Studies Inconsistency index}
 \usage{
 sens_br(x, br1, br2, dt1, dt2 = NULL, dt3 = NULL, sm, by = 0.01, scale = 1000)
 
@@ -17,7 +18,7 @@ sens_br(x, br1, br2, dt1, dt2 = NULL, dt3 = NULL, sm, by = 0.01, scale = 1000)
 )
 }
 \arguments{
-\item{x}{An R object of class \code{samples_metainc} or a matrix
+\item{x}{An R object created with \code{\link{getsamples}} or a matrix
 containing sampled effect sizes of primary studies. Note, log
 transformed effect sizes must be provided (e.g., log odds ratios
 instead of odds ratios).}
@@ -65,26 +66,25 @@ index).}
 A data frame containing
 \item{br}{Baseline risk}
 \item{ASI}{Decision Inconsistency index at baseline risk}
-\item{DI}{Across-Studies Inconsistency index at Baseline risk}
+\item{DI}{Across-Studies Inconsistency index at baseline risk}
 }
 \description{
 Sensitivity analysis on the Decision Inconsistency index and the
 Across-Studies Inconsistency index based on a range of baseline
-risks. It is applicable only to meta-analyses with binary outcome
-data (effect size measures expressed as risk ratios, odds ratios or
+risks. It is applicable only to meta-analyses with a binary outcome
+(effect size measures expressed as risk ratios, odds ratios or
 hazard ratios).
 }
 \details{
-The \code{\link{inc}} function computes the Decision Inconsistency
-index (DI) and the Across-Studies Inconsistency index (ASI) across
-a range of baseline risks. It can only be applied for meta-analyses
-with binary outcome data (effect size measures expressed as
-(log-)risk ratios, odds ratios or hazard ratios), with the DI and
-the ASI being calculated based on absolute effects. As a result,
-the decision threshold values (\code{dt1}, \code{dt2}, \code{dt3})
-must be provided as absolute effects. By default, it is assumed
+This function computes the Decision Inconsistency index (DI) and the
+Across-Studies Inconsistency index (ASI) across a range of baseline risks.
+It can only be applied for meta-analyses with binary outcome data (effect
+size measures expressed as (log) risk ratios, odds ratios or hazard ratios),
+with the DI and the ASI being calculated based on absolute effects.
+As a result, the decision threshold values (\code{dt1}, \code{dt2},
+\code{dt3}) must be provided as absolute effects. By default, it is assumed
 that threshold values are provided as numbers of events per 1000
-people (\code{scale = 1000}).
+persons (\code{scale = 1000}).
 }
 \examples{
 data(anticoagulation)

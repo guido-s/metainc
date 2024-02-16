@@ -1,8 +1,10 @@
-#' Samples of effect sizes (odds ratio)
+#' Sampled odds ratios from meta-analysis on the association between
+#' parenteral anticoagulation and mortality in patients with cancer
 #' 
 #' @description
-#' Matrix with samples of effect sizes from a meta-analysis by Akl et
-#' al. (2017).
+#' Matrix with sampled odds ratios from meta-analysis on the association
+#' between parenteral anticoagulation and mortality in patients with cancer
+#' (Akl et al., 2017).
 #' 
 #' @name anticoagulation
 #' @aliases anticoagulation
@@ -26,7 +28,7 @@
 #'
 #' @keywords datasets
 #' 
-#' @seealso \code{\link{inc}}
+#' @seealso \code{\link{inc}}, \code{\link{anticoagulation_df}}
 #'
 #' @examples
 #' data(anticoagulation)

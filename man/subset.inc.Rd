@@ -8,10 +8,10 @@ subsets of studies}
 \method{subset}{inc}(x, data, subset, ...)
 }
 \arguments{
-\item{x}{An object of the \code{inc} class.}
+\item{x}{An object created with \code{\link{inc}}.}
 
 \item{data}{A data frame with the same number of primary studies as those
-included in meta-analysis and containing the variables based on which
+included in the meta-analysis and containing the variables based on which
 subset analysis is to be performed.}
 
 \item{subset}{A logical vector to select studies for subset analysis.}
@@ -40,14 +40,13 @@ inc_anticoagulation
 # Example with subset analysis restricted to studies with a low risk of bias:
 data(anticoagulation_df)
 subset1_anticoagulation <-
-  subset(inc_anticoagulation, data = anticoagulation_df,
-    RoB == "Low")
+  subset(inc_anticoagulation, anticoagulation_df, RoB == "Low")
 subset1_anticoagulation
  
 # Example with subset analysis excluding studies with a high risk of bias
-# (resulting in the same subset of studies as no study has RoB "Moderate"):
+# (resulting in the same subset of studies as no study has "Moderate" RoB):
 subset2_anticoagulation <-
-   subset(inc_anticoagulation, anticoagulation_df, RoB != "High")
+  subset(inc_anticoagulation, anticoagulation_df, RoB != "High")
 subset2_anticoagulation
 
 }

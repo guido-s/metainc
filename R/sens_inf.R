@@ -1,4 +1,5 @@
-#' Decision Inconsistency index for individual studies and leave-one out sensitivity analysis for inconsistency measures
+#' Decision Inconsistency index for individual studies and leave-one out
+#' sensitivity analysis for inconsistency measures
 #'
 #' @description
 #' Computation of the Decision Inconsistency index for each individual
@@ -6,22 +7,22 @@
 #' Decision Inconsistency index and the Across-Studies Inconsistency
 #' index.
 #'
-#' @param x An R object of class \code{inc}.
+#' @param x An R object of class \code{\link{inc}}.
 #' @param object An R object of class \code{sens_inf}.
 #' @param \dots Additional arguments (ignored).
 #'
 #' @details
 #' The \code{sens_inf} function (i) computes the Decision
 #' Inconsistency index (DI) for each individual primary study and (ii)
-#' performs leave-one-out sensitivity analysis for the DI and for the
+#' performs a leave-one-out sensitivity analysis for the DI and for the
 #' Across-Studies Inconsistency index. This function takes, as its
-#' single argument, an object of the class \code{inc}.
+#' single argument, an object of the class \code{\link{inc}}.
 #' 
 #' @return
-#' The \code{sens_inf} function generates:
-#' \item{di_stud}{A dataframe displaying the Decision Inconsistency
-#'   Index for each individual primary study.}
-#' \item{di_asi_sens}{A dataframe displaying the results of the
+#' This function generates:
+#' \item{di_stud}{A data frame containing the Decision Inconsistency
+#'   index for each individual primary study.}
+#' \item{di_asi_sens}{A data frame containing results of a
 #'   leave-one-out sensitivity analysis for the Decision Inconsistency
 #'   index and the Across-Studies Inconsistency index.}
 #' 

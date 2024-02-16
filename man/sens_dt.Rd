@@ -3,14 +3,15 @@
 \name{sens_dt}
 \alias{sens_dt}
 \alias{heatplot}
-\title{Sensitivity analysis (based on decision thresholds) for the Decision Inconsistency index and Across-Studies Inconsistency index}
+\title{Sensitivity analysis (based on decision thresholds) for the Decision
+Inconsistency and Across-Studies Inconsistency index}
 \usage{
 sens_dt(x, br = NULL, min1, max1, min2, max2, sm, by = 1, scale = 1000)
 
 heatplot(x, limits1 = NULL, limits2 = NULL, ...)
 }
 \arguments{
-\item{x}{An R object of class \code{samples_metainc} or a matrix
+\item{x}{An R object created with \code{\link{getsamples}} or a matrix
 containing the samples of the effect sizes of primary
 studies. Note that log-transformed effect sizes must be provided
 (e.g., log odds ratios instead of odds ratios).}
