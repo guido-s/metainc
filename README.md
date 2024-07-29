@@ -1,9 +1,10 @@
 # metainc: Assessment of Inconsistency in Meta-Analysis
 Official Git repository of R package **metainc**
 
-[![CRAN Version](http://www.r-pkg.org/badges/version/metainc)](https://cran.r-project.org/package=metainc)
-[![Monthly Downloads](http://cranlogs.r-pkg.org/badges/metainc)](http://cranlogs.r-pkg.org/badges/metainc)
-[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/metainc)](http://cranlogs.r-pkg.org/badges/grand-total/metainc)
+[![License: GPL (>=2)](https://img.shields.io/badge/license-GPL-blue)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![CRAN Version](https://www.r-pkg.org/badges/version/metainc)](https://cran.r-project.org/package=metainc)
+[![Monthly Downloads](https://cranlogs.r-pkg.org/badges/metainc)](https://cranlogs.r-pkg.org/badges/metainc)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/metainc)](https://cranlogs.r-pkg.org/badges/grand-total/metainc)
 
 
 ## Description
@@ -16,7 +17,7 @@ inconsistency taking into account outcome-level decision thresholds.
 
 ## Installation
 
-### Current official [![CRAN Version](http://www.r-pkg.org/badges/version/metainc)](https://cran.r-project.org/package=metainc) release:
+### Current official [![CRAN Version](https://www.r-pkg.org/badges/version/metainc)](https://cran.r-project.org/package=metainc) release:
 ```r
 install.packages("metainc")
 ```
