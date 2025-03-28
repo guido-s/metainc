@@ -3,12 +3,18 @@
 \name{sens_dt}
 \alias{sens_dt}
 \alias{heatplot}
+\alias{heatplot.sens_dt}
+\alias{print.heatplot.sens_dt}
 \title{Sensitivity analysis (based on decision thresholds) for the Decision
 Inconsistency and Across-Studies Inconsistency index}
 \usage{
 sens_dt(x, br = NULL, min1, max1, min2, max2, sm, by = 1, scale = 1000)
 
-heatplot(x, limits1 = NULL, limits2 = NULL, ...)
+heatplot(x, ...)
+
+\method{heatplot}{sens_dt}(x, type = c("DI", "ASI"), limits1 = NULL, limits2 = NULL, ...)
+
+\method{print}{heatplot.sens_dt}(x, type, ...)
 }
 \arguments{
 \item{x}{An R object created with \code{\link{getsamples}} or a matrix
@@ -45,13 +51,17 @@ primary studies (either \code{sm = "OR"}, \code{sm = "RR"} or
 thresholds are provided (default: 1000, i.e., absolute decision
 threshold values are defined per 1000 people).}
 
+\item{\dots}{Additional graphical arguments (ignored).}
+
+\item{type}{Character string(s) indicating which index to show in the heat
+plot (admissable values are \code{"DI"} and \code{"ASI"},
+can be abbreviated).}
+
 \item{limits1}{Limits for the colour range in the heatplot showing
 the Decision Inconsistency index.}
 
 \item{limits2}{Limits for the colour range in the heatplot showing
 the Across-Studies Inconsistency index.}
-
-\item{\dots}{Additional graphical arguments (ignored).}
 }
 \value{
 A data frame containing

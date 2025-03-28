@@ -37,6 +37,9 @@
 #'   the Decision Inconsistency index.
 #' @param limits2 Limits for the colour range in the heatplot showing
 #'   the Across-Studies Inconsistency index.
+#' @param type Character string(s) indicating which index to show in the heat
+#'   plot (admissable values are \code{"DI"} and \code{"ASI"},
+#'   can be abbreviated).
 #' @param \dots Additional graphical arguments (ignored).
 #'
 #' @details
@@ -181,32 +184,54 @@ sens_dt <- function(x, br = NULL, min1, max1, min2, max2, sm, by = 1,
 }
 
 
-
-
-
 #' @rdname sens_dt
 #' @export
 
-heatplot <- function(x, limits1 = NULL, limits2 = NULL, ...) {
+heatplot <- function(x, ...)
+  UseMethod("heatplot")
+
+
+#' @rdname sens_dt
+#' @method heatplot sens_dt
+#' @export
+
+heatplot.sens_dt <- function(x, type =  c("DI", "ASI"),
+                             limits1 = NULL, limits2 = NULL, ...) {
+  chkclass(x, "sens_dt")
   #
+  type <- unique(setchar(type, c("DI", "ASI")))
+  
+  
+  #
+  # Heat plot for DI
+  #
+  
   seq1 <- x$dt1
-  seq2 <- x$dt2
-  dsi <- x$DI
-  asi <- x$ASI
+  di <- x$DI
   #
   if (is.null(limits1))
-    limits1 <- range(dsi, na.rm = TRUE)
-  #
-  if (is.null(limits2))
-    limits2 <- range(asi, na.rm = TRUE)
+    limits1 <- range(di, na.rm = TRUE)
+  else
+    chknumeric(limits1, length = 2)
   #
   p1 <- ggplot(mapping = aes(x = seq1, y = seq2)) +
-    geom_raster(aes(fill = dsi), interpolate = TRUE) +
+    geom_raster(aes(fill = di), interpolate = TRUE) +
     scale_fill_gradient(high = "red", low = "green", limits = limits1,
                         name = "DI") +
     labs(x = "Lower threshold of appreciable effect",
          y = "Upper threshold of appreciable effect",
          title = "Decision Inconsistency index")
+  
+  #
+  # Heat plot for ASI
+  #
+  
+  seq2 <- x$dt2
+  asi <- x$ASI
+  if (is.null(limits2))
+    limits2 <- range(asi, na.rm = TRUE)
+  else
+    chknumeric(limits2, length = 2)
   #
   p2 <- ggplot(mapping = aes(x = seq1, y = seq2)) +
     geom_raster(aes(fill = asi), interpolate = TRUE) +
@@ -215,9 +240,56 @@ heatplot <- function(x, limits1 = NULL, limits2 = NULL, ...) {
     labs(x = "Lower threshold of appreciable effect",
          y = "Upper threshold of appreciable effect",
          title = "Across-Studies Inconsistency index")
+  
+  
   #
-  plot(p1)
-  plot(p2)
+  # Return results
   #
-  invisible(NULL)  
+  
+  if (length(type) == 2)
+    res <- list(DI = p1, ASI= p2)
+  else if (type == "DI")
+    res <- p1
+  else if (type == "ASI")
+    res <- p2
+  else
+    res <- NULL
+  #
+  if (!is.null(res))
+    class(res) <- c(class(res), "heatplot.sens_dt")
+  #
+  res
+}
+
+
+#' @rdname sens_dt
+#' @method print heatplot.sens_dt
+#' @export
+
+print.heatplot.sens_dt <- function(x, type, ...) {
+  chkclass(x, "heatplot.sens_dt")
+  #
+  if (missing(type)) {
+    if (inherits(x, "ggplot"))
+      print(x)
+    else {
+      for (i in seq_along(x))
+        print(x[[i]])
+    }
+  }
+  else {
+    if (inherits(x, "ggplot")) {
+      warning("Argument 'type' ignored for single plot.",
+              call. = FALSE)
+      print(x)
+    }
+    else {
+      type <- setchar(type, c("DI", "ASI"))
+      #
+      for (i in seq_along(type))
+        print(x[[type[i]]])
+    }
+  }
+  #
+  invisible(NULL)
 }
