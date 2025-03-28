@@ -157,14 +157,13 @@
 #' \emph{Journal of Clinical Epidemiology}, \bold{118},
 #' 124--131.
 #' 
-#' #' Sousa-Pinto B, Neumann I, Vieira RJ, et al. (2025).
+#' Sousa-Pinto B, Neumann I, Vieira RJ, et al. (2025).
 #' \dQuote{Quantitative assessment of inconsistency in meta-analysis using
 #' decision thresholds with two new indices.}
 #' \emph{Journal of Clinical Epidemiology}, \bold{181},
 #' 111725.
 #' 
 #' @examples
-#' 
 #' # Example with effect sizes measures expressed as ratios and with
 #' # calculation of the Decision Inconsistency index and the Across-Studies
 #' # Inconsistency index based on absolute effects:
@@ -186,7 +185,8 @@
 #' # as mean differences:
 #' 
 #' data(montelukast)
-#' inc_montelukast <- inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "md")
+#' inc_montelukast <-
+#'   inc(montelukast, dt1 = 0.2, dt2 = 0.4, dt3 = 0.6, sm = "md")
 #' inc_montelukast
 #'
 #' @export inc

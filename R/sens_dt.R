@@ -51,8 +51,10 @@
 #' A data frame containing
 #' \item{dt1}{Lower decision threshold}
 #' \item{dt2}{Higher decision threshold}
-#' \item{ASI}{Decision Inconsistency index for each combination of decision thresholds}
-#' \item{DI}{Across-Studies Inconsistency index for each combination of decision thresholds}
+#' \item{ASI}{Decision Inconsistency index for each combination of
+#'    decision thresholds}
+#' \item{DI}{Across-Studies Inconsistency index for each combination of
+#'    decision thresholds}
 #' 
 #' @author Bernardo Sousa-Pinto \email{bernardo@@med.up.pt},
 #'   Guido Schwarzer \email{guido.schwarzer@@uniklinik-freiburg.de}
@@ -203,7 +205,7 @@ heatplot <- function(x, limits1 = NULL, limits2 = NULL, ...) {
     scale_fill_gradient(high = "red", low = "green", limits = limits1,
                         name = "DI") +
     labs(x = "Lower threshold of appreciable effect",
-         y ="Upper threshold of appreciable effect",
+         y = "Upper threshold of appreciable effect",
          title = "Decision Inconsistency index")
   #
   p2 <- ggplot(mapping = aes(x = seq1, y = seq2)) +
@@ -212,17 +214,10 @@ heatplot <- function(x, limits1 = NULL, limits2 = NULL, ...) {
                         name = "V") + 
     labs(x = "Lower threshold of appreciable effect",
          y = "Upper threshold of appreciable effect",
-         title = "Across-studies Inconsistency index")
-  #
-  #p3 <- ggplot(mapping = aes(x = seq1, y = seq2)) + geom_raster(aes(fill = prop_higher),interpolate=T)+scale_fill_gradient(low="white", high="black",limits=c(0,1),name="Proportion") + labs(x = "Lower threshold of appreciable effect", y="Upper threshold of appreciable effect",title="Proportion of samples higher than \n the highest decision threshold value")
-  #p4 <- ggplot(mapping = aes(x = seq1, y = seq2)) + geom_raster(aes(fill = prop_lower),interpolate=T)+scale_fill_gradient(low="white", high="black",limits=c(0,1),name="Proportion") + labs(x = "Lower threshold of appreciable effect", y="Upper threshold of appreciable effect",title="Proportion of samples lower than \n the lowest decision threshold value")
-  #p5 <- ggplot(mapping = aes(x = seq1, y = seq2)) + geom_raster(aes(fill = prop_trivial),interpolate=T)+scale_fill_gradient(low="white", high="black",limits=c(0,1),name="Proportion") + labs(x = "Lower threshold of appreciable effect", y="Upper threshold of appreciable effect",title="Proportion of samples with trivial effect")
+         title = "Across-Studies Inconsistency index")
   #
   plot(p1)
   plot(p2)
-  #plot(x$p3)
-  #plot(x$p4)
-  #plot(x$p5)
   #
   invisible(NULL)  
 }

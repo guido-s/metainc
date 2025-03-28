@@ -2,8 +2,9 @@
 % Please edit documentation in R/metainc-package.R
 \docType{package}
 \name{metainc-package}
+\alias{metainc}
 \alias{metainc-package}
-\title{'metainc': Brief overview of methods and general hints}
+\title{metainc: Brief overview of methods and general hints}
 \description{
 Assessment of inconsistency in meta-analysis by calculating the Decision 
 Inconsistency index (DI) and the Across-Studies Inconsistency (ASI) index. 
@@ -11,7 +12,7 @@ These indices quantify inconsistency taking into account outcome-level
 decision thresholds.
 }
 \details{
-The following possibilities are available in \bold{'metainc'}:
+The following possibilities are available in \bold{metainc}:
 \itemize{
 \item Generating or extracting samples of effect sizes from primary studies
   included in a meta-analysis (\code{\link{getsamples}})
@@ -30,9 +31,9 @@ available:
 }
 
 Type \code{help(package = "metainc")} for a listing of R functions
-available in \bold{'metainc'}.
+available in \bold{metainc}.
 
-Type \code{citation("metainc")} on how to cite \bold{'metainc'} in
+Type \code{citation("metainc")} on how to cite \bold{metainc} in
 publications.
 }
 \references{

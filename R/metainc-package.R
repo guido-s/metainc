@@ -1,4 +1,4 @@
-#' 'metainc': Brief overview of methods and general hints
+#' metainc: Brief overview of methods and general hints
 #' 
 #' Assessment of inconsistency in meta-analysis by calculating the Decision 
 #' Inconsistency index (DI) and the Across-Studies Inconsistency (ASI) index. 
@@ -6,11 +6,9 @@
 #' decision thresholds.
 #'
 #' @name metainc-package
-#' 
-#' @docType package
 #'
 #' @details
-#' The following possibilities are available in \bold{'metainc'}:
+#' The following possibilities are available in \bold{metainc}:
 #' \itemize{
 #' \item Generating or extracting samples of effect sizes from primary studies
 #'   included in a meta-analysis (\code{\link{getsamples}})
@@ -29,9 +27,9 @@
 #' }
 #' 
 #' Type \code{help(package = "metainc")} for a listing of R functions
-#' available in \bold{'metainc'}.
+#' available in \bold{metainc}.
 #' 
-#' Type \code{citation("metainc")} on how to cite \bold{'metainc'} in
+#' Type \code{citation("metainc")} on how to cite \bold{metainc} in
 #' publications.
 #' 
 #' 
@@ -75,5 +73,6 @@
 #' @importFrom ggplot2 aes geom_raster ggplot labs scale_fill_gradient
 #' @importFrom graphics lines mtext polygon title 
 
+"_PACKAGE"
 
 NULL

@@ -1,7 +1,7 @@
 Package: metainc
 Title: Assessment of Inconsistency in Meta-Analysis using Decision Thresholds
-Version: 0.2-1
-Date: 2025-03-11
+Version: 0.2-2
+Date: 2025-03-28
 Depends: R (>= 4.0.0)
 Imports: meta (>= 7.0-0), ggplot2, confintr
 Suggests: metafor
@@ -17,4 +17,4 @@ Authors@R: c(person("Bernardo", "Sousa-Pinto",
 Description: Assessment of inconsistency in meta-analysis by calculating the Decision Inconsistency index (DI) and the Across-Studies Inconsistency (ASI) index. These indices quantify inconsistency taking into account outcome-level decision thresholds.
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

@@ -201,53 +201,58 @@ formatPT <- function(x, lab = FALSE, labval = "p", noblanks = FALSE,
   if (!scientific) {
     if (lab) {
       if (!JAMA)
-        res <- format(ifelse(is.na(x) | is.nan(x),
-                             paste(labval, "=", lab.NA),
-                             ifelse(x == 0,
-                                    paste(labval, "= 0"),
-                                    ifelse(x < 1 / 10^digits,
-                                           paste0(labval, " < 0", outdec,
-                                                  paste(rep("0",
-                                                            n.zeros), collapse = ""),
-                                                  "1"),
-                                           paste(paste(labval, "="),
-                                                 formatC(round(x, digits),
-                                                         decimal.mark = outdec,
-                                                         big.mark = big.mark,
-                                                         format = "f", digits = digits)
-                                           )
-                                    )
-                             )
-        )
-        )
+        res <-
+          format(ifelse(is.na(x) | is.nan(x),
+                        paste(labval, "=", lab.NA),
+                        ifelse(x == 0,
+                               paste(labval, "= 0"),
+                               ifelse(x < 1 / 10^digits,
+                                      paste0(labval, " < 0", outdec,
+                                             paste(rep("0",
+                                                       n.zeros), collapse = ""),
+                                             "1"),
+                                      paste(paste(labval, "="),
+                                            formatC(round(x, digits),
+                                                    decimal.mark = outdec,
+                                                    big.mark = big.mark,
+                                                    format = "f",
+                                                    digits = digits)
+                                      )
+                               )
+                        )
+          )
+          )
       else
-        res <- format(ifelse(is.na(x) | is.nan(x),
-                             paste(labval, "=", lab.NA),
-                             ifelse(x < 0.001,
-                                    paste0(labval, " < 0", outdec,
-                                           paste(rep("0", 2), collapse = ""), "1"),
-                                    ifelse(x >= 0.001 & x < 0.01,
-                                           paste(paste(labval, "="),
-                                                 formatC(x,
-                                                         decimal.mark = outdec,
-                                                         big.mark = big.mark,
-                                                         format = "f", digits = 3)),
-                                           ifelse(x >= 0.01 & x <= 0.99,
-                                                  paste(paste(labval, "="),
-                                                        formatC(x,
-                                                                decimal.mark = outdec,
-                                                                big.mark = big.mark,
-                                                                format = "f", digits = 2)),
-                                                  paste(paste(labval, ">"),
-                                                        formatC(0.99,
-                                                                decimal.mark = outdec,
-                                                                big.mark = big.mark,
-                                                                format = "f", digits = 2)))
-                                    )
-                             )
-        )
-        )
-      
+        res <-
+          format(
+            ifelse(is.na(x) | is.nan(x),
+                   paste(labval, "=", lab.NA),
+                   ifelse(x < 0.001,
+                          paste0(labval, " < 0", outdec,
+                                 paste(rep("0", 2), collapse = ""), "1"),
+                          ifelse(x >= 0.001 & x < 0.01,
+                                 paste(paste(labval, "="),
+                                       formatC(x,
+                                               decimal.mark = outdec,
+                                               big.mark = big.mark,
+                                               format = "f", digits = 3)),
+                                 ifelse(x >= 0.01 & x <= 0.99,
+                                        paste(paste(labval, "="),
+                                              formatC(x,
+                                                      decimal.mark = outdec,
+                                                      big.mark = big.mark,
+                                                      format = "f",
+                                                      digits = 2)),
+                                        paste(paste(labval, ">"),
+                                              formatC(0.99,
+                                                      decimal.mark = outdec,
+                                                      big.mark = big.mark,
+                                                      format = "f",
+                                                      digits = 2)))
+                          )
+                   )
+            )
+          )
     }
     else {
       if (!JAMA)
@@ -257,41 +262,47 @@ formatPT <- function(x, lab = FALSE, labval = "p", noblanks = FALSE,
                                     0,
                                     ifelse(x < 1 / 10^digits,
                                            paste0("< 0", outdec,
-                                                  paste(rep("0", n.zeros), collapse = ""),
+                                                  paste(rep("0", n.zeros),
+                                                        collapse = ""),
                                                   "1"),
                                            formatC(round(x, digits),
                                                    decimal.mark = outdec,
                                                    big.mark = big.mark,
-                                                   format = "f", digits = digits)
+                                                   format = "f",
+                                                   digits = digits)
                                     )
                              )
         ),
         justify = "right")
       else
-        res <- format(ifelse(is.na(x) | is.nan(x),
-                             lab.NA,
-                             ifelse(x < 0.001,
-                                    paste0("< 0", outdec,
-                                           paste(rep("0", 2), collapse = ""), "1"),
-                                    ifelse(x >= 0.001 & x < 0.01,
-                                           formatC(x,
-                                                   decimal.mark = outdec,
-                                                   big.mark = big.mark,
-                                                   format = "f", digits = 3),
-                                           ifelse(x >= 0.01 & x <= 0.99,
-                                                  formatC(x,
-                                                          decimal.mark = outdec,
-                                                          big.mark = big.mark,
-                                                          format = "f", digits = 2),
-                                                  paste(">",
-                                                        formatC(0.99,
-                                                                decimal.mark = outdec,
-                                                                big.mark = big.mark,
-                                                                format = "f", digits = 2)))
-                                    )
-                             )
-        ),
-        justify = "right")
+        res <-
+          format(
+            ifelse(is.na(x) | is.nan(x),
+                   lab.NA,
+                   ifelse(x < 0.001,
+                          paste0("< 0", outdec,
+                                 paste(rep("0", 2), collapse = ""),
+                                 "1"),
+                          ifelse(x >= 0.001 & x < 0.01,
+                                 formatC(x,
+                                         decimal.mark = outdec,
+                                         big.mark = big.mark,
+                                         format = "f", digits = 3),
+                                 ifelse(x >= 0.01 & x <= 0.99,
+                                        formatC(x,
+                                                decimal.mark = outdec,
+                                                big.mark = big.mark,
+                                                format = "f", digits = 2),
+                                        paste(">",
+                                              formatC(0.99,
+                                                      decimal.mark = outdec,
+                                                      big.mark = big.mark,
+                                                      format = "f",
+                                                      digits = 2)))
+                          )
+                   )
+            ),
+            justify = "right")
     }
   }
   else {

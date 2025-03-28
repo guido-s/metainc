@@ -57,8 +57,10 @@ the Across-Studies Inconsistency index.}
 A data frame containing
 \item{dt1}{Lower decision threshold}
 \item{dt2}{Higher decision threshold}
-\item{ASI}{Decision Inconsistency index for each combination of decision thresholds}
-\item{DI}{Across-Studies Inconsistency index for each combination of decision thresholds}
+\item{ASI}{Decision Inconsistency index for each combination of
+   decision thresholds}
+\item{DI}{Across-Studies Inconsistency index for each combination of
+   decision thresholds}
 }
 \description{
 Sensitivity analysis on the Decision Inconsistency index and the
